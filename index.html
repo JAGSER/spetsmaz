@@ -1,0 +1,1599 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex,nofollow">
+<title>Кабинет Спецмазь</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geologica:wght@500;700;800&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: sticky header with tabs; hero card first, then «Новое» strip and media grids from the Disk; the viewer is a full-screen cinema overlay */
+:root{
+  --bg:#f1f2f5;--surface:#ffffff;--raised:#f8f9fb;--sunk:#e6e8ee;--line:#d8dbe3;
+  --ink:#10141b;--muted:#596272;--faint:#8c94a3;
+  --accent:#3347ff;--accent-ink:#ffffff;--accent-soft:#e6e9ff;--accent-text:#2431cf;
+  --gold:#9a6200;--gold-soft:#fbefd5;
+  --ok:#0f7a55;--ok-soft:#dbf1e6;--bad:#bf352b;--bad-soft:#fbe4e1;
+  --chip-ok:#0d7a52;--chip-bad:#b3261e;--chip-wait:#8a5a00;
+  --hero:#2232e8;--hero-ink:#ffffff;--hero-muted:rgba(255,255,255,.74);--hero-line:rgba(255,255,255,.14);--hero-chip:rgba(255,255,255,.12);--hero-gold:#ffc757;
+  --on-media:#ffffff;--scrim:rgba(6,8,12,.72);
+  --v-bg:#07080b;--v-ink:#f2f4f8;--v-muted:#a2aab8;--v-chip:rgba(255,255,255,.1);--v-media:#000000;
+  --shadow:0 1px 2px rgba(16,20,27,.05),0 12px 32px rgba(16,20,27,.08);
+  --f-display:"Geologica","Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-body:"Golos Text",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-num:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --wrap:1160px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0d0f14;--surface:#151821;--raised:#1a1e28;--sunk:#212633;--line:#2b3141;
+  --ink:#edf0f6;--muted:#9aa3b3;--faint:#6d7688;
+  --accent:#6f7cff;--accent-ink:#0b0e1d;--accent-soft:#1d2250;--accent-text:#aab2ff;
+  --gold:#f2b84b;--gold-soft:#33280f;
+  --ok:#45c48e;--ok-soft:#10291f;--bad:#ff7d72;--bad-soft:#3a1815;
+  --hero:#2a37e0;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px rgba(0,0,0,.35);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0d0f14;--surface:#151821;--raised:#1a1e28;--sunk:#212633;--line:#2b3141;
+  --ink:#edf0f6;--muted:#9aa3b3;--faint:#6d7688;
+  --accent:#6f7cff;--accent-ink:#0b0e1d;--accent-soft:#1d2250;--accent-text:#aab2ff;
+  --gold:#f2b84b;--gold-soft:#33280f;
+  --ok:#45c48e;--ok-soft:#10291f;--bad:#ff7d72;--bad-soft:#3a1815;
+  --hero:#2a37e0;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px rgba(0,0,0,.35);
+  color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--f-body);-webkit-font-smoothing:antialiased}
+body.noscroll{overflow:hidden}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+img{max-width:100%}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--f-display);margin:0;letter-spacing:-.015em;line-height:1.15;text-wrap:balance}
+h1{font-size:clamp(26px,4.4vw,36px);font-weight:800}
+h2{font-size:clamp(18px,2.4vw,22px);font-weight:700}
+h3{font-size:17px;font-weight:700}
+p{margin:0}
+.num{font-family:var(--f-num);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.muted{color:var(--muted)}
+.small{font-size:13.5px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shimmer{0%{opacity:.55}50%{opacity:1}100%{opacity:.55}}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:spin .9s linear infinite;flex-shrink:0}
+svg{flex-shrink:0}
+
+/* header */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:31;background:var(--bg)}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:color-mix(in srgb,var(--bg) 86%,transparent);-webkit-backdrop-filter:saturate(1.4) blur(14px);backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--line)}
+.top-in{display:flex;align-items:center;gap:16px;min-height:62px;padding-block:8px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.logo{width:36px;height:36px;border-radius:11px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center}
+.logo svg{width:15px;height:15px;margin-left:2px}
+.brand b{display:block;font-family:var(--f-display);font-weight:800;font-size:14px;letter-spacing:.12em;line-height:1.15}
+.brand small{display:block;color:var(--muted);font-size:12.5px;line-height:1.25}
+.nav{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0}
+.nav::-webkit-scrollbar{display:none}
+.nav a{position:relative;padding:8px 12px;border-radius:10px;text-decoration:none;font-weight:600;font-size:14.5px;color:var(--muted);white-space:nowrap}
+.nav a:hover{color:var(--ink);background:var(--sunk)}
+.nav a[aria-current="page"]{color:var(--ink);background:var(--surface);box-shadow:inset 0 0 0 1px var(--line)}
+.nav .dot{position:absolute;top:7px;right:5px;width:7px;height:7px;border-radius:50%;background:var(--accent)}
+.top-r{display:flex;align-items:center;gap:10px;flex-shrink:0;margin-left:auto}
+.sync{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:7px;white-space:nowrap}
+.icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;padding:0}
+.icon-btn svg{width:19px;height:19px}
+.linkbtn{border:0;background:none;padding:0;color:var(--accent-text);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+@media (max-width:820px){
+  .nav a{padding:7px 10px;font-size:14px}
+  .top-in{flex-wrap:wrap;gap:6px 12px;padding-block:8px 6px}
+  .nav{order:3;flex-basis:100%;margin-inline:-6px}
+  .sync .txt{display:none}
+}
+
+/* page */
+main{display:grid;gap:34px;padding-block:24px 150px}
+.block{display:grid;gap:14px;min-width:0}
+.block-head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px 16px;flex-wrap:wrap}
+.block-head>div{display:grid;gap:4px}
+.block-head>.tools{display:flex;flex:1 1 420px;justify-content:flex-end}
+.page-head{display:grid;gap:8px;max-width:70ch}
+.eyebrow{font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.sub-h{font-family:var(--f-body);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-top:6px}
+.empty{padding:28px 16px;text-align:center;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:18px}
+.notice{padding:14px 16px;border-radius:16px;background:var(--accent-soft);font-size:14.5px}
+.notice.bad{background:var(--bad-soft)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:11px 16px;font-weight:600;font-size:14.5px;line-height:1.2;text-decoration:none;background:var(--accent);color:var(--accent-ink);white-space:nowrap}
+.btn svg{width:17px;height:17px}
+.btn.light{background:var(--hero-ink);color:var(--hero)}
+.btn.glass{background:var(--hero-chip);color:var(--hero-ink)}
+.btn.ghost{background:var(--sunk);color:var(--ink)}
+.btn.line{background:transparent;box-shadow:inset 0 0 0 1px var(--line);color:var(--ink)}
+.btn[disabled]{opacity:.45;cursor:default}
+.pill{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 13px;font-size:14px;font-weight:500;white-space:nowrap}
+.pill.on{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-text);font-weight:600}
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.seg{display:inline-flex;background:var(--sunk);border-radius:12px;padding:3px;gap:2px}
+.seg button{border:0;background:transparent;padding:7px 12px;border-radius:9px;font-size:13.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.search{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:0 12px;flex:1 1 260px;min-width:0;max-width:420px}
+.search svg{width:17px;height:17px;color:var(--muted)}
+.search input{border:0;background:transparent;padding:10px 0;width:100%;outline:none;min-width:0}
+
+/* hero */
+.hero{position:relative;overflow:hidden;isolation:isolate;border-radius:28px;background:var(--hero);color:var(--hero-ink);padding:clamp(20px,3.4vw,32px);display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:24px 32px;box-shadow:var(--shadow)}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:repeating-linear-gradient(118deg,var(--hero-line) 0 1px,transparent 1px 24px);-webkit-mask:linear-gradient(90deg,transparent 25%,#000 90%);mask:linear-gradient(90deg,transparent 25%,#000 90%)}
+.h-label{font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--hero-muted);font-weight:700}
+.h-big{font-family:var(--f-display);font-weight:800;font-size:clamp(40px,8vw,68px);line-height:1;letter-spacing:-.035em;margin-top:10px;white-space:nowrap}
+.h-sub{margin-top:12px;color:var(--hero-muted);font-size:15px}
+.h-sub b{color:var(--hero-ink);font-family:var(--f-num);font-weight:700}
+.h-bar{margin-top:18px;height:10px;border-radius:99px;background:var(--hero-line);overflow:hidden}
+.h-bar i{display:block;height:100%;min-width:6px;background:var(--hero-gold);border-radius:99px;transition:width .8s ease}
+.h-bar-cap{display:flex;justify-content:space-between;gap:6px 12px;margin-top:9px;font-size:13.5px;color:var(--hero-muted);flex-wrap:wrap}
+.h-bar-cap b{color:var(--hero-gold);font-weight:700}
+.h-side{display:grid;gap:10px;align-content:start}
+.h-stat{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:13px 15px;border-radius:15px;background:var(--hero-chip)}
+.h-stat span{color:var(--hero-muted);font-size:13.5px}
+.h-stat b{font-family:var(--f-num);font-weight:700;font-size:16px;text-align:right}
+.h-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+@media (max-width:760px){.hero{grid-template-columns:1fr}}
+
+/* covers */
+.cv{display:block;background:linear-gradient(135deg,var(--sunk),var(--raised))}
+.cv:not(.has){animation:shimmer 2.4s ease-in-out infinite}
+.cv img{width:100%;height:100%;object-fit:cover;display:block}
+.cv.broken{animation:none}
+
+/* sections */
+.sections{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:16px}
+.sec{position:relative;display:block;border-radius:20px;overflow:hidden;isolation:isolate;aspect-ratio:16/11;text-decoration:none;color:var(--on-media);background:var(--sunk)}
+.sec .cv{position:absolute;inset:0;z-index:-2}
+.sec .cv img{transition:transform .6s ease}
+.sec:hover .cv img{transform:scale(1.045)}
+.sec::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,transparent 30%,var(--scrim) 100%)}
+.sec-in{position:absolute;inset:auto 0 0 0;padding:14px 16px 15px;display:grid;gap:3px}
+.sec-in b{font-family:var(--f-display);font-size:19px;font-weight:700;line-height:1.15;text-wrap:balance}
+.sec-in .st{font-size:13px;opacity:.9}
+@media (max-width:560px){.sections{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.sec{aspect-ratio:4/5;border-radius:16px}.sec-in{padding:10px 11px 11px}.sec-in b{font-size:15px}.sec-in .st{font-size:12px}}
+
+/* tiles */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:20px 14px}
+@media (max-width:520px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 10px}}
+.strip{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(148px,176px);gap:14px;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x proximity;scrollbar-width:thin}
+.strip>*{scroll-snap-align:start}
+.tile{display:grid;gap:8px;align-content:start;text-align:left;background:none;border:0;padding:0;color:inherit;text-decoration:none;min-width:0}
+.thumb{position:relative;display:block;aspect-ratio:4/5;border-radius:15px;overflow:hidden;background:var(--sunk);isolation:isolate}
+.thumb .cv{position:absolute;inset:0;z-index:-1}
+.thumb .cv img{transition:transform .35s ease}
+.tile:hover .thumb .cv img{transform:scale(1.035)}
+.album .thumb{box-shadow:0 0 0 1px var(--line)}
+.chip{position:absolute;display:inline-flex;align-items:center;gap:5px;padding:4px 8px;border-radius:8px;font-size:11.5px;font-weight:700;line-height:1.2;letter-spacing:.01em}
+.chip svg{width:11px;height:11px}
+.chip.play{left:8px;bottom:8px;background:var(--scrim);color:var(--on-media)}
+.chip.count{right:8px;bottom:8px;background:var(--scrim);color:var(--on-media)}
+.chip.new{left:8px;top:8px;background:var(--accent);color:var(--accent-ink)}
+.chip.unpaid{background:var(--chip-bad);color:var(--on-media)}
+.chip.paid{background:var(--chip-ok);color:var(--on-media)}
+.chip.wait{background:var(--chip-wait);color:var(--on-media)}
+.chips{position:absolute;top:8px;left:8px;right:8px;display:flex;flex-wrap:wrap;gap:4px;justify-content:space-between;pointer-events:none}
+.chips .chip{position:static}
+.chip.posted{right:8px;bottom:8px;background:var(--chip-ok);color:var(--on-media);padding:5px}
+.t-name{font-weight:600;font-size:14px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.t-meta{font-size:12.5px;color:var(--muted);margin-top:-4px}
+.skel .thumb{animation:shimmer 1.6s ease-in-out infinite}
+.skel .t-name{height:12px;width:70%;border-radius:6px;background:var(--sunk)}
+
+/* folder */
+.crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;font-size:14px;color:var(--muted)}
+.crumbs a{text-decoration:none;color:var(--muted)}
+.crumbs a:hover{color:var(--ink)}
+.crumbs span[aria-hidden]{opacity:.5}
+.f-head{display:grid;gap:12px}
+.f-bar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between}
+.banner{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:16px;background:var(--bad-soft)}
+.banner.ok{background:var(--ok-soft)}
+.banner>div{display:grid;gap:2px;min-width:0}
+.banner span{font-size:14px;color:var(--muted)}
+
+/* payments */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:15px 17px;display:grid;gap:4px}
+.stat span{font-size:13.5px;color:var(--muted)}
+.stat b{font-family:var(--f-num);font-size:22px;font-weight:700;letter-spacing:-.02em}
+.stat small{font-size:12.5px;color:var(--muted)}
+.stat.gold b{color:var(--gold)}
+.stat .txt{font-family:var(--f-display);font-size:18px}
+.hint{background:var(--accent-soft);border-radius:14px;padding:12px 15px;font-size:14.5px;max-width:80ch}
+.list{background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.row{display:grid;grid-template-columns:auto 64px minmax(0,1fr) auto;gap:14px;align-items:center;padding:12px 16px;border-top:1px solid var(--line)}
+.row:first-child{border-top:0}
+.row.sel{background:var(--accent-soft)}
+.row.locked .r-main,.row.locked .r-right,.row.locked .r-thumb{opacity:.55}
+.chk{width:28px;height:28px;border-radius:9px;border:2px solid var(--line);background:var(--surface);display:grid;place-items:center;padding:0;color:var(--accent-ink)}
+.chk svg{width:14px;height:14px}
+.row.sel .chk{background:var(--accent);border-color:var(--accent)}
+.chk.done{background:var(--chip-ok);border-color:var(--chip-ok);color:var(--on-media)}
+.chk.blank{visibility:hidden}
+.r-thumb{position:relative;display:block;width:64px;height:64px;border-radius:12px;overflow:hidden;background:var(--sunk);border:0;padding:0;isolation:isolate}
+.r-thumb .cv{position:absolute;inset:0;z-index:-1}
+.r-thumb .chip.play{left:4px;bottom:4px;padding:3px 4px}
+.r-thumb.none{display:grid;place-items:center;color:var(--faint)}
+.r-thumb.none svg{width:22px;height:22px}
+.r-main{min-width:0;display:grid;gap:3px}
+.r-name{font-weight:600;overflow-wrap:anywhere}
+.r-sub{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center}
+.tag{font-size:11.5px;padding:2px 7px;border-radius:6px;background:var(--sunk);color:var(--muted);font-weight:700}
+.tag.old{background:var(--gold-soft);color:var(--gold)}
+.tag.disk{background:var(--accent-soft);color:var(--accent-text)}
+.r-right{text-align:right;display:grid;gap:2px;justify-items:end}
+.price{font-family:var(--f-num);font-weight:700;white-space:nowrap}
+.cut{font-family:var(--f-num);font-size:12.5px;color:var(--ok);white-space:nowrap;font-weight:700}
+.lockmsg{font-size:12px;color:var(--muted)}
+@media (max-width:560px){
+  .row{grid-template-columns:auto 52px minmax(0,1fr);gap:10px 12px;padding:12px}
+  .r-thumb{width:52px;height:52px}
+  .r-right{grid-column:3;justify-items:start;text-align:left;display:flex;flex-wrap:wrap;gap:2px 10px;align-items:baseline}
+}
+details.fold{display:grid;gap:12px}
+details.fold>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+details.fold>summary::-webkit-details-marker{display:none}
+details.fold>summary::after{content:"Показать";margin-left:auto;font-size:13.5px;color:var(--accent-text);font-weight:600}
+details.fold[open]>summary::after{content:"Скрыть"}
+details.fold[open]>summary{margin-bottom:12px}
+
+/* dock */
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:25;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -10px 30px color-mix(in srgb,var(--ink) 10%,transparent);padding-top:12px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px))}
+.dock-in{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.dock-txt{display:grid;gap:2px;min-width:0}
+.dock-txt small{color:var(--muted);font-size:12.5px}
+.plus{color:var(--ok);font-family:var(--f-num);font-weight:700}
+
+/* forecast */
+.chart{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px;overflow-x:auto}
+.chart svg{display:block;min-width:520px;width:100%;height:auto;margin:0 auto}
+.card .big small{font-family:var(--f-body);font-size:14px;font-weight:500;color:var(--muted);letter-spacing:0}
+.chart .bar{fill:var(--accent)}
+.chart .bar.done{fill:var(--chip-ok)}
+.chart .axis{stroke:var(--line)}
+.chart text{fill:var(--muted);font-family:var(--f-num);font-size:11px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:6px;align-content:start}
+.card .big{font-family:var(--f-num);font-size:20px;font-weight:700}
+.card p{color:var(--muted);font-size:14px}
+
+/* awards */
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.badge{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:6px;align-content:start}
+.badge .ico{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--sunk);color:var(--faint);font-family:var(--f-display);font-weight:800;font-size:15px}
+.badge.got{border-color:var(--gold)}
+.badge.got .ico{background:var(--gold);color:var(--surface)}
+.badge small{color:var(--muted);font-size:13px}
+.ladder{background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.rung{display:flex;justify-content:space-between;gap:10px;padding:11px 16px;border-top:1px solid var(--line);font-size:14.5px}
+.rung:first-child{border-top:0}
+.rung.cur{background:var(--gold-soft);font-weight:700}
+.rung.done{color:var(--muted)}
+.quest{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px 16px;display:grid;gap:8px}
+.q-head{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.qbar{height:8px;border-radius:99px;background:var(--sunk);overflow:hidden}
+.qbar i{display:block;height:100%;background:var(--chip-ok)}
+.q-reward{font-size:13.5px;color:var(--gold);font-weight:600}
+
+/* services */
+.services{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:16px}
+.svc{background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:grid;grid-template-rows:auto 1fr}
+.svc-img{position:relative;display:block;aspect-ratio:16/9;background:var(--sunk);isolation:isolate}
+.svc-img .cv{position:absolute;inset:0;z-index:-1}
+.svc-img.empty{display:grid;place-items:center;color:var(--accent-text);background:var(--accent-soft)}
+.svc-img.empty svg{width:40px;height:40px}
+.svc-body{padding:16px;display:grid;gap:8px;align-content:start}
+.svc-body p{color:var(--muted);font-size:14.5px}
+.svc-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+
+/* admin */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;display:grid;gap:12px}
+.linkrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center}
+.linkrow code{font-family:var(--f-num);font-size:12.5px;background:var(--sunk);border-radius:10px;padding:10px 12px;overflow-x:auto;white-space:nowrap;display:block}
+.rules{display:grid;gap:10px;margin:0;padding-left:20px}
+.rules li{padding-left:4px}
+.rules code{font-family:var(--f-num);font-size:13px;background:var(--sunk);border-radius:6px;padding:1px 6px}
+
+/* sheet */
+.sheet{position:fixed;inset:0;z-index:60;background:color-mix(in srgb,var(--v-bg) 55%,transparent);display:grid;align-items:end;justify-items:center}
+.sheet-in{background:var(--bg);width:100%;max-width:760px;max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;padding-top:20px;padding-bottom:calc(20px + env(safe-area-inset-bottom,0px));padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px));display:grid;gap:14px;align-content:start}
+@media (min-width:820px){.sheet{align-items:center}.sheet-in{border-radius:22px;max-height:88vh}}
+.sheet-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.field{display:grid;gap:6px;font-size:14px}
+.field>span{color:var(--muted);font-weight:600;font-size:13px}
+.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:10px 12px}
+.field textarea{resize:vertical;line-height:1.5}
+textarea.mono{font-family:var(--f-num);font-size:13px;min-height:220px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{display:flex;gap:10px;align-items:flex-start;font-size:14.5px}
+.opt input{width:20px;height:20px;margin-top:2px;flex-shrink:0;accent-color:var(--accent)}
+.opt small{display:block;color:var(--muted);font-size:13px;margin-top:2px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.tips{font-size:13.5px;color:var(--muted);display:grid;gap:6px}
+.tips b{color:var(--ink)}
+
+/* viewer */
+.viewer{position:fixed;inset:0;z-index:70;background:var(--v-bg);color:var(--v-ink);display:grid;grid-template-rows:auto minmax(0,1fr) auto;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.v-top{display:flex;align-items:center;gap:12px;padding-top:10px;padding-bottom:8px;padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px))}
+.v-ic{width:42px;height:42px;border-radius:50%;border:0;background:var(--v-chip);color:var(--v-ink);display:grid;place-items:center;padding:0}
+.v-ic svg{width:20px;height:20px}
+.v-count{font-family:var(--f-num);font-size:13px;color:var(--v-muted)}
+.v-path{font-size:13.5px;color:var(--v-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1}
+.v-stage{position:relative;min-height:0}
+.v-hold{position:absolute;top:0;bottom:0;left:72px;right:72px}
+.v-hold video,.v-hold img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;background:transparent}
+.v-hold .spin{position:absolute;left:50%;top:50%;width:30px;height:30px;margin:-15px 0 0 -15px;border-width:3px;border-color:var(--v-chip);border-top-color:var(--v-ink)}
+.v-err{position:absolute;inset:0;color:var(--v-muted);text-align:center;display:grid;gap:10px;place-content:center;justify-items:center}
+.v-nav{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;border:0;background:var(--v-chip);color:var(--v-ink);display:grid;place-items:center;padding:0}
+.v-nav svg{width:22px;height:22px}
+.v-nav[disabled]{opacity:.25;cursor:default}
+.v-nav.prev{left:10px}.v-nav.next{right:10px}
+.v-cap{width:100%;max-width:1040px;margin:0 auto;padding-top:12px;padding-bottom:14px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:9px}
+.v-title{font-family:var(--f-display);font-weight:700;font-size:19px;line-height:1.2}
+.v-meta{font-size:13px;color:var(--v-muted);display:flex;flex-wrap:wrap;gap:4px 12px}
+.v-pay{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:10px 12px;border-radius:12px;background:var(--v-chip);font-size:14px}
+.v-pay .dotc{width:8px;height:8px;border-radius:50%;background:var(--chip-bad)}
+.v-pay.ok .dotc{background:var(--chip-ok)}
+.v-pay .sub{color:var(--v-muted)}
+.v-actions{display:flex;flex-wrap:wrap;gap:8px}
+.v-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 13px;border-radius:11px;border:0;background:var(--v-chip);color:var(--v-ink);font-weight:600;font-size:14px;text-decoration:none;white-space:nowrap}
+.v-btn svg{width:16px;height:16px}
+.v-btn.on{background:var(--chip-ok)}
+.v-btn.acc{background:var(--accent);color:var(--accent-ink);margin-left:auto}
+@media (max-width:640px){.v-hold{left:0;right:0}.v-nav{display:none}.v-title{font-size:17px}}
+
+/* toast & lock */
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(100px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:12px;font-size:14px;z-index:90;max-width:calc(100% - 32px);box-shadow:var(--shadow)}
+.lock{min-height:100vh;display:grid;place-items:center;padding:24px}
+.lock-card{max-width:420px;text-align:center;display:grid;gap:14px;justify-items:center}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top" id="top"></header>
+<main class="wrap" id="view" tabindex="-1"></main>
+<div id="dock"></div>
+<div id="viewer" class="viewer" hidden role="dialog" aria-modal="true" aria-label="Просмотр"></div>
+<div id="sheet"></div>
+<div class="toast" id="toast" role="status" hidden></div>
+<script type="application/json" id="cfg">{"enc":"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"}</script>
+<script>
+(async function(){
+'use strict';
+
+/* ---------- small utils ---------- */
+const $ = (s, el) => (el || document).querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const rub = v => Math.round(v).toLocaleString('ru-RU').replace(/[\u00a0\u202f ]/g, '\u00a0') + '\u00a0₽';
+const round1k = v => Math.round(v / 1000) * 1000;
+const shortRub = v => (v >= 1000 ? Math.round(v / 1000) + ' тыс.' : v) + ' ₽';
+function plural(n, one, few, many){ n = Math.abs(n); const a = n % 10, b = n % 100; if (a === 1 && b !== 11) return one; if (a >= 2 && a <= 4 && (b < 12 || b > 14)) return few; return many; }
+const fmtDate = ms => ms ? new Date(ms).toLocaleDateString('ru-RU', {day:'numeric', month:'short', year:'numeric'}).replace(/\s?г\.$/, '') : '';
+const mb = b => b >= 1e9 ? (b / 1e9).toFixed(1).replace('.', ',') + ' ГБ' : b >= 1e6 ? Math.max(1, Math.round(b / 1e6)) + ' МБ' : Math.max(1, Math.round(b / 1e3)) + ' КБ';
+const norm = s => String(s).toLowerCase().replace(/ё/g, 'е');
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const collator = new Intl.Collator('ru', {numeric: true, sensitivity: 'base'});
+const byName = (a, b) => collator.compare(a.n, b.n);
+function cyrb53(str, seed){ seed = seed || 0; let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed; for (let i = 0, ch; i < str.length; i++){ ch = str.charCodeAt(i); h1 = Math.imul(h1 ^ ch, 2654435761); h2 = Math.imul(h2 ^ ch, 1597334677); } h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507); h1 ^= Math.imul(h2 ^ (h2 >>> 13), 3266489909); h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507); h2 ^= Math.imul(h1 ^ (h1 >>> 13), 3266489909); return 4294967296 * (2097151 & h2) + (h1 >>> 0); }
+const store = {
+  get(k, d){ try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; } },
+  del(k){ try { localStorage.removeItem(k); } catch (e) {} }
+};
+const ICON = {
+  play:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.8v14.4L19 12z" fill="currentColor"/></svg>',
+  x:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>',
+  left:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  right:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  search:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 16l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+  gear:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="15" cy="7" r="2.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="17" r="2.2" fill="none" stroke="currentColor" stroke-width="2"/></svg>',
+  dl:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19.5h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  link:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+  check:'<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  folder:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7.5a2 2 0 0 1 2-2h4l2 2h7a2 2 0 0 1 2 2v7.5a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z" fill="none" stroke="currentColor" stroke-width="1.9"/></svg>',
+  stack:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9l8-4 8 4-8 4z" fill="currentColor"/><path d="M4 13l8 4 8-4M4 17l8 4 8-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+  image:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="9" cy="10" r="1.7" fill="currentColor"/><path d="M5 17l4.5-4.5 3 3 2.5-2.5 4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+  spark:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.8 5.4L19 10l-5.2 1.6L12 17l-1.8-5.4L5 10l5.2-1.6z" fill="currentColor"/><path d="M18.5 15.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z" fill="currentColor"/></svg>',
+  share:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4m0 0L8 8m4-4l4 4M6 12v6.5A1.5 1.5 0 0 0 7.5 20h9a1.5 1.5 0 0 0 1.5-1.5V12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+};
+
+/* ---------- boot: config, keys, role ---------- */
+const RAW = JSON.parse(document.getElementById('cfg').textContent);
+const startHash = location.hash.replace(/^#/, '');
+const HP = new URLSearchParams(startHash.startsWith('/') ? '' : startHash);
+
+async function aesDecrypt(b64, key){
+  if (!key) throw new Error('no key');
+  if (!(window.crypto && crypto.subtle)) throw new Error('no crypto');
+  const bin = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+  const kh = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key));
+  const k = await crypto.subtle.importKey('raw', kh, 'AES-GCM', false, ['decrypt']);
+  const pt = await crypto.subtle.decrypt({name: 'AES-GCM', iv: bin.slice(0, 12)}, k, bin.slice(12));
+  return JSON.parse(new TextDecoder().decode(pt));
+}
+
+let DKEY = '';
+let CFG;
+if (RAW.enc) {
+  const tryKeys = [HP.get('d'), store.get('sm-d', '')].filter(Boolean);
+  for (const k of tryKeys) { try { CFG = await aesDecrypt(RAW.enc, k); DKEY = k; break; } catch (e) {} }
+  if (!CFG) {
+    document.body.innerHTML = '<div class="lock"><div class="lock-card"><div class="logo" style="width:56px;height:56px;border-radius:16px">' + ICON.play + '</div><h1>Кабинет закрыт</h1><p class="muted">Откройте его по ссылке, которую вам прислали. После первого входа кабинет будет открываться на этом устройстве сам.</p></div></div>';
+    return;
+  }
+  store.set('sm-d', DKEY);
+} else CFG = RAW;
+
+const API = 'https://cloud-api.yandex.net/v1/disk/public/resources';
+const PK = CFG.disk;
+const RATE = CFG.rate || 0.1;
+const INFLOW = CFG.inflow || 175000;
+const OLD_MIN = 0.6, FRESH_SHARE = 0.3;
+const PACES = [200000, 225000, 250000, 275000];
+const BUDGETS = [50000, 100000, 150000, 200000];
+const LEVELS = [{name:'Стажёр',min:0},{name:'Агент',min:5000},{name:'Партнёр',min:12000},{name:'Мастер сделок',min:25000},{name:'Легенда',min:40000},{name:'Магнат',min:60000}];
+const PV_TTL = 3 * 3600e3, F_TTL = 2 * 3600e3, CRAWL_TTL = 10 * 60e3;
+const SNAP = Date.parse(CFG.updated + 'T00:00:00Z') || 0;
+const K = {ui:'sm-ui-v2', role:'sm-role-v2', ak:'sm-ak', posted:'sm-posted-v2', visit:'sm-visit-v2', tree:'sm-tree-v2'};
+
+let role = store.get(K.role, '');
+if (HP.get('k') && cyrb53(HP.get('k')).toString(36) === CFG.kr && role !== 'admin') role = 'rep';
+if (HP.get('a') && cyrb53(HP.get('a')).toString(36) === CFG.ka) { role = 'admin'; store.set(K.ak, HP.get('a')); }
+if (!role && CFG.local) role = 'admin';
+if (!role) role = 'client';
+store.set(K.role, role);
+
+let ADM = null;
+if (role === 'admin') {
+  if (CFG.admPlain) ADM = CFG.admPlain;
+  else if (CFG.adm) { try { ADM = await aesDecrypt(CFG.adm, store.get(K.ak, '')); } catch (e) { ADM = null; } }
+}
+
+const ui = store.get(K.ui, {});
+const S = {
+  role, viewAs: ui.viewAs === 'client' ? 'client' : 'rep', hide: !!ui.hide, theme: ui.theme || 'auto',
+  sel: Array.isArray(ui.sel) ? ui.sel : [], budget: null, pace: PACES.includes(ui.pace) ? ui.pace : 225000,
+  sort: ui.sort === 'az' ? 'az' : 'new', kind: 'all', q: '',
+  posted: new Set(store.get(K.posted, [])), prevVisit: 0, route: {v: 'home'}
+};
+function saveUI(){ store.set(K.ui, {viewAs: S.viewAs, hide: S.hide, theme: S.theme, sel: S.sel, pace: S.pace, sort: S.sort}); }
+const isAdmin = () => S.role === 'admin';
+const repTools = () => S.role === 'rep' || (isAdmin() && S.viewAs === 'rep');
+const repLayer = () => repTools() && !S.hide;
+
+(function visits(){
+  const v = store.get(K.visit, null), now = Date.now();
+  if (v && v.last && now - v.last < 30 * 60e3) S.prevVisit = v.prev || (now - 14 * 864e5);
+  else S.prevVisit = v && v.last ? v.last : now - 14 * 864e5;
+  store.set(K.visit, {prev: S.prevVisit, last: now});
+})();
+
+/* route from start hash */
+let startRoute = startHash.startsWith('/') ? startHash : (HP.get('r') || '/');
+if (HP.get('p')) startRoute = '/show=' + HP.get('p').replace(/[^0-9.]/g, '');
+const baseURL = () => location.href.split('#')[0];
+history.replaceState(null, '', baseURL() + '#' + startRoute);
+function shareLink(params){
+  const p = new URLSearchParams();
+  const dk = DKEY || CFG.dkey || '';
+  if (dk) p.set('d', dk);
+  for (const [k, v] of Object.entries(params || {})) if (v) p.set(k, v);
+  const s = p.toString();
+  const base = location.protocol === 'file:' && CFG.siteURL ? CFG.siteURL : baseURL();
+  return base + (s ? '#' + s : '');
+}
+
+/* ---------- names & tags ---------- */
+function parseTag(name){
+  const m = String(name).match(/\[([^\]]*)\]/);
+  if (!m) return null;
+  const t = m[1];
+  const paid = /(оплач|опл\b|✓|✅|paid)/i.test(t);
+  let price = null;
+  const k = t.match(/(\d+(?:[.,]\d+)?)\s*(?:к|k|тыс)/i);
+  if (k) price = Math.round(parseFloat(k[1].replace(',', '.')) * 1000);
+  else { const d = t.replace(/(\d)[\s. ](?=\d{3}(?!\d))/g, '$1').match(/\d{3,}/); if (d) price = +d[0]; }
+  if (price == null && !paid) return null;
+  return {price, paid};
+}
+function title(it){
+  if (!it) return 'Все работы';
+  if (it.p === '/') return 'Все работы';
+  let s = it.n;
+  if (it.t === 'file') s = s.replace(/\.[A-Za-z0-9]{2,5}$/, '');
+  if (parseTag(s)) s = s.replace(/\[[^\]]*\]/, ' ');
+  s = s.replace(/^[\s+]+/, '').replace(/_/g, ' ').replace(/(\d)\s?к\s?(\d)/g, '$1:$2').replace(/\s+/g, ' ').trim();
+  return s || it.n;
+}
+const parentOf = p => { const i = p.lastIndexOf('/'); return i <= 0 ? '/' : p.slice(0, i); };
+const hidden = it => /^[._]/.test(it.n);
+const underHidden = p => p.split('/').some(s => /^[._]/.test(s));
+function tileTitle(it){
+  const t = title(it);
+  if (it.t === 'file' && /^\d+([ -]\d+)?$/.test(t)) return title(node(parentOf(it.p))) + ' · ' + t;
+  return t;
+}
+function node(p){ return p === '/' ? {n: 'Все работы', p: '/', t: 'dir', c: 0} : (D.idx.get(p) || {n: p.split('/').pop(), p, t: 'dir', c: 0}); }
+function pathTitle(p){ if (p === '/') return 'Все работы'; return p.split('/').filter(Boolean).map((s, i, a) => title({n: s, t: 'dir', p: '/' + a.slice(0, i + 1).join('/')})).join(' › '); }
+const isVideo = it => it && it.t === 'file' && /^video\/(mp4|webm|quicktime)/.test(it.m);
+const isImage = it => it && it.t === 'file' && /^image\/(png|jpe?g|webp|gif)/.test(it.m);
+const isMedia = it => isVideo(it) || isImage(it);
+const freshPv = it => !!(it && it.pv && Date.now() - it.ts < PV_TTL);
+const fHref = p => '#/f=' + encodeURIComponent(p);
+
+/* ---------- Yandex Disk ---------- */
+const D = {dirs: new Map(), idx: new Map(), rid: new Map(), ver: 0, crawl: {running: false, done: 0, total: 0, err: 0, ts: 0, failed: false}};
+function normItem(x, ts){ return {n: x.name, p: x.path, t: x.type === 'dir' ? 'dir' : 'file', c: Date.parse(x.created) || 0, s: x.size || 0, m: x.mime_type || '', r: String(x.resource_id || '').split(':').pop(), pv: x.preview || '', f: x.file || '', fts: x.file ? ts : 0, big: pickBig(x.sizes), ts}; }
+function pickBig(sizes){ if (!Array.isArray(sizes)) return ''; for (const w of ['XXXL', 'XXL', 'XL', 'L']) { const s = sizes.find(z => z.name === w); if (s && s.url) return s.url; } return ''; }
+async function getJSON(u){
+  let last;
+  for (let a = 0; a < 3; a++) {
+    try { const r = await fetch(u, {referrerPolicy: 'no-referrer'}); if (r.ok) return await r.json(); last = new Error('HTTP ' + r.status); if (r.status === 404) break; }
+    catch (e) { last = e; }
+    await sleep(600 * (a + 1));
+  }
+  throw last;
+}
+async function apiList(path, full){
+  const fields = ['name','type','path','created','size','mime_type','resource_id','preview'].concat(full ? ['file','sizes'] : []);
+  const q = '&preview_size=560x&preview_crop=false&fields=_embedded.total,' + fields.map(f => '_embedded.items.' + f).join(',');
+  let items = [], off = 0, total = 0;
+  do {
+    const j = await getJSON(API + '?public_key=' + encodeURIComponent(PK) + '&path=' + encodeURIComponent(path) + '&limit=500&offset=' + off + q);
+    const it = (j._embedded && j._embedded.items) || [];
+    total = j._embedded ? j._embedded.total : 0;
+    items = items.concat(it); off += it.length;
+    if (!it.length) break;
+  } while (off < total);
+  const ts = Date.now();
+  setDir(path, items.map(x => normItem(x, ts)), ts, full);
+  return D.dirs.get(path).items;
+}
+function dropPath(p){
+  const it = D.idx.get(p); D.idx.delete(p);
+  if (it && it.r && D.rid.get(it.r) === p) D.rid.delete(it.r);
+  const d = D.dirs.get(p); if (d) { D.dirs.delete(p); for (const c of d.items) dropPath(c.p); }
+}
+function setDir(path, items, ts, full){
+  const prev = D.dirs.get(path);
+  if (prev) { const keep = new Set(items.map(i => i.p)); for (const o of prev.items) if (!keep.has(o.p)) dropPath(o.p); }
+  const now = Date.now();
+  for (const it of items) {
+    const old = D.idx.get(it.p);
+    if (old) {
+      if (!it.f && old.f && now - old.fts < F_TTL) { it.f = old.f; it.fts = old.fts; }
+      if (!it.big && old.big && now - old.ts < PV_TTL) it.big = old.big;
+    }
+    D.idx.set(it.p, it); if (it.r) D.rid.set(it.r, it.p);
+  }
+  D.dirs.set(path, {items, ts, full: !!full || !!(prev && prev.full && now - prev.ts < PV_TTL)});
+  D.ver++;
+}
+function saveTree(){
+  const dirs = [];
+  for (const [p, d] of D.dirs) dirs.push([p, d.ts, d.items.map(i => [i.n, i.t === 'dir' ? 1 : 0, i.c, i.s, i.m, i.r, i.pv])]);
+  if (!store.set(K.tree, {v: 2, ts: Date.now(), dirs})) {
+    store.set(K.tree, {v: 2, ts: Date.now(), dirs: dirs.map(([p, ts, its]) => [p, ts, its.map(a => { a = a.slice(); a[6] = ''; return a; })])});
+  }
+}
+function loadTree(){
+  const c = store.get(K.tree, null);
+  if (!c || c.v !== 2 || !Array.isArray(c.dirs)) return 0;
+  for (const [p, ts, its] of c.dirs) {
+    const items = its.map(a => ({n: a[0], t: a[1] ? 'dir' : 'file', c: a[2], s: a[3], m: a[4], r: a[5], pv: a[6], f: '', fts: 0, big: '', ts, p: (p === '/' ? '' : p) + '/' + a[0]}));
+    D.dirs.set(p, {items, ts, full: false});
+    for (const it of items) { D.idx.set(it.p, it); if (it.r) D.rid.set(it.r, it.p); }
+  }
+  D.ver++;
+  return c.ts || 0;
+}
+async function crawl(){
+  const C = D.crawl;
+  if (C.running) return;
+  Object.assign(C, {running: true, done: 0, total: 1, err: 0, failed: false});
+  updateSync();
+  const seen = new Set();
+  const queue = [{p: '/', c: Infinity}];
+  let active = 0;
+  await new Promise(resolve => {
+    const push = items => { for (const it of items) if (it.t === 'dir' && !hidden(it)) { queue.push({p: it.p, c: it.c}); C.total++; } };
+    const pump = () => {
+      if (!queue.length && !active) return resolve();
+      queue.sort((a, b) => b.c - a.c);
+      while (active < 6 && queue.length) {
+        const job = queue.shift(); active++;
+        apiList(job.p).then(items => { seen.add(job.p); push(items); })
+          .catch(() => { C.err++; const old = D.dirs.get(job.p); if (old) { seen.add(job.p); push(old.items); } })
+          .finally(() => { active--; C.done++; liveSoon(); pump(); });
+      }
+    };
+    pump();
+  });
+  C.running = false; C.ts = Date.now();
+  if (!C.err) {
+    for (const p of [...D.dirs.keys()]) if (!seen.has(p)) D.dirs.delete(p);
+    D.idx.clear(); D.rid.clear();
+    for (const [, d] of D.dirs) for (const it of d.items) { D.idx.set(it.p, it); if (it.r) D.rid.set(it.r, it.p); }
+    D.ver++;
+  }
+  C.failed = C.done > 0 && C.err === C.done;
+  if (!C.failed) saveTree();
+  liveSoon(true);
+}
+async function fileHref(it){
+  if (it.f && it.fts && Date.now() - it.fts < F_TTL) return it.f;
+  const j = await getJSON(API + '/download?public_key=' + encodeURIComponent(PK) + '&path=' + encodeURIComponent(it.p));
+  it.f = j.href; it.fts = Date.now();
+  return j.href;
+}
+async function ensureFull(p){ const d = D.dirs.get(p); if (d && d.full && Date.now() - d.ts < PV_TTL) return; try { await apiList(p, true); } catch (e) {} }
+
+/* stats per folder (memo by tree version) */
+let ST = {ver: -1, map: null};
+function stats(){
+  if (ST.ver === D.ver) return ST.map;
+  const map = new Map();
+  const walk = p => {
+    if (map.has(p)) return map.get(p);
+    const s = {v: 0, i: 0, newest: 0, oldest: 0, size: 0, full: true, leaf: true};
+    map.set(p, s);
+    const d = D.dirs.get(p);
+    if (!d) { s.full = false; return s; }
+    for (const it of d.items) {
+      if (hidden(it)) continue;
+      if (it.t === 'dir') {
+        s.leaf = false;
+        const c = walk(it.p);
+        s.v += c.v; s.i += c.i; s.size += c.size; if (!c.full) s.full = false;
+        s.newest = Math.max(s.newest, c.newest || it.c);
+        const co = c.oldest || it.c; s.oldest = s.oldest ? Math.min(s.oldest, co) : co;
+      } else if (isMedia(it)) {
+        if (isVideo(it)) s.v++; else s.i++;
+        s.size += it.s; s.newest = Math.max(s.newest, it.c); s.oldest = s.oldest ? Math.min(s.oldest, it.c) : it.c;
+      }
+    }
+    return s;
+  };
+  walk('/');
+  for (const p of D.dirs.keys()) walk(p);
+  ST = {ver: D.ver, map};
+  return map;
+}
+function countLine(s, short){
+  if (!s) return '';
+  const n = s.v + s.i;
+  if (!n) return s.full ? (short ? '0' : 'пока пусто') : '…';
+  if (short) return String(n) + (s.full ? '' : '+');
+  const parts = [];
+  if (s.v) parts.push(s.v + ' видео');
+  if (s.i) parts.push(s.i + ' ' + plural(s.i, 'картинка', 'картинки', 'картинок'));
+  let line = parts.join(' · ') + (s.full ? '' : ' …');
+  if (s.oldest && s.newest) { const a = new Date(s.oldest).getFullYear(), b = new Date(s.newest).getFullYear(); line += ' · ' + (a === b ? a : a + '-' + b); }
+  return line;
+}
+function coverOf(p, depth){
+  depth = depth || 0;
+  const it = D.idx.get(p);
+  if (it && it.t === 'file') return isMedia(it) && freshPv(it) ? it : null;
+  const d = D.dirs.get(p);
+  if (!d) return null;
+  const vis = d.items.filter(i => !hidden(i));
+  const m = vis.filter(isMedia).sort(byName).find(freshPv);
+  if (m) return m;
+  if (depth < 4) {
+    const st = stats();
+    const subs = vis.filter(i => i.t === 'dir').sort((a, b) => ((st.get(b.p) || {}).newest || b.c) - ((st.get(a.p) || {}).newest || a.c));
+    for (const s of subs) { const c = coverOf(s.p, depth + 1); if (c) return c; }
+  }
+  return null;
+}
+const coverTried = new Set(), coverQ = [];
+let coverActive = 0;
+function wantCover(p){ if (coverTried.has(p)) return; coverTried.add(p); coverQ.push(p); runCovers(); }
+function runCovers(){
+  while (coverActive < 3 && coverQ.length) {
+    const p = coverQ.shift(); coverActive++;
+    findCover(p).catch(() => {}).finally(() => { coverActive--; liveSoon(); runCovers(); });
+  }
+}
+async function findCover(p){
+  const it = D.idx.get(p);
+  if (it && it.t === 'file') { await apiList(parentOf(p)); return; }
+  let cur = p;
+  for (let depth = 0; depth < 4; depth++) {
+    let d = D.dirs.get(cur);
+    if (!d || !d.items.some(freshPv)) { await apiList(cur); d = D.dirs.get(cur); }
+    const vis = d.items.filter(i => !hidden(i));
+    if (vis.some(isMedia)) return;
+    const subs = vis.filter(i => i.t === 'dir').sort((a, b) => b.c - a.c);
+    if (!subs.length) return;
+    cur = subs[0].p;
+  }
+}
+const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => {
+  for (const e of es) if (e.isIntersecting) { io.unobserve(e.target); const p = e.target.dataset.p; if (p && !coverOf(p)) wantCover(p); }
+}, {rootMargin: '400px'}) : null;
+function imgTag(src, alt){ return '<img src="' + esc(src) + '" alt="' + esc(alt || '') + '" loading="lazy" decoding="async" referrerpolicy="no-referrer">'; }
+function cvHTML(p){ const c = coverOf(p); return '<span class="cv' + (c ? ' has' : '') + '" data-p="' + esc(p) + '"' + (c ? ' data-ok="1"' : '') + '>' + (c ? imgTag(c.pv) : '') + '</span>'; }
+function fillLive(root){
+  root = root || document;
+  const st = stats();
+  root.querySelectorAll('.cv[data-p]').forEach(el => {
+    if (el.dataset.ok) return;
+    const c = coverOf(el.dataset.p);
+    if (c) { el.innerHTML = imgTag(c.pv); el.dataset.ok = '1'; el.classList.add('has'); }
+    else if (io && !el.dataset.obs) { el.dataset.obs = '1'; io.observe(el); }
+    else if (!io) wantCover(el.dataset.p);
+  });
+  root.querySelectorAll('.st[data-p]').forEach(el => { const s = st.get(el.dataset.p); const t = countLine(s, !!el.dataset.short); if (el.textContent !== t) el.textContent = t; });
+}
+document.addEventListener('error', e => {
+  const t = e.target;
+  if (t && t.tagName === 'IMG' && t.closest('.cv')) { const cv = t.closest('.cv'); cv.classList.remove('has'); cv.classList.add('broken'); delete cv.dataset.ok; t.remove(); const it = D.idx.get(cv.dataset.p); if (it) it.ts = 0; }
+}, true);
+
+/* ---------- payments ---------- */
+const PAY = {rows: [], byKey: new Map(), linkByPath: new Map(), queue: [], noPrice: [], paid: [], fresh: new Set(), sig: '', debt: 0, paidSum: 0, total: 0, earned: 0, waiting: 0};
+function ancestorTagged(p, linked){ let cur = parentOf(p); while (cur && cur !== '/') { if (linked.has(cur)) return true; const it = D.idx.get(cur); if (it && parseTag(it.n)) return true; cur = parentOf(cur); } return false; }
+function buildPay(){
+  const rows = CFG.rows.map(r => {
+    const paths = (r.rids || []).map((x, i) => D.rid.get(x) || (r.paths || [])[i]).filter(Boolean);
+    return {key: 'n' + r.n, n: r.n, type: r.type, name: r.name, price: r.price, status: r.status, note: r.note || '', paths, dyn: false, c: 0};
+  });
+  for (const r of rows) for (const p of r.paths) { const it = D.idx.get(p); const tg = it && parseTag(it.n); if (tg) { if (tg.price != null) r.price = tg.price; if (tg.paid) r.status = 'paid'; } }
+  const linked = new Set(rows.flatMap(r => r.paths));
+  const dyn = [];
+  for (const it of D.idx.values()) {
+    if (linked.has(it.p) || hidden(it) || underHidden(it.p)) continue;
+    if (it.t === 'file' && !isMedia(it)) continue;
+    const tg = parseTag(it.n);
+    if (!tg || ancestorTagged(it.p, linked)) continue;
+    dyn.push({key: 'd' + (it.r || it.p), n: 0, type: title(node(parentOf(it.p))), name: title(it), price: tg.price, status: tg.paid ? 'paid' : 'unpaid', note: '', paths: [it.p], dyn: true, c: it.c});
+  }
+  dyn.sort((a, b) => a.c - b.c || collator.compare(a.name, b.name));
+  let n = CFG.rows.reduce((m, r) => Math.max(m, r.n), 0);
+  for (const d of dyn) d.n = ++n;
+  const all = rows.concat(dyn);
+  const sig = all.map(r => r.key + ':' + r.price + ':' + r.status + ':' + r.paths.join('|')).join(';');
+  const changed = sig !== PAY.sig;
+  PAY.sig = sig; PAY.rows = all;
+  PAY.byKey = new Map(all.map(r => [r.key, r]));
+  PAY.linkByPath = new Map(); for (const r of all) for (const p of r.paths) PAY.linkByPath.set(p, r);
+  PAY.queue = all.filter(r => r.status !== 'paid' && r.price != null).sort((a, b) => a.n - b.n);
+  PAY.noPrice = all.filter(r => r.status !== 'paid' && r.price == null);
+  PAY.paid = all.filter(r => r.status === 'paid' && r.price != null);
+  const fc = Math.ceil(PAY.queue.length * FRESH_SHARE);
+  PAY.fresh = new Set(PAY.queue.slice(PAY.queue.length - fc).map(r => r.key));
+  PAY.debt = PAY.queue.reduce((s, r) => s + r.price, 0);
+  PAY.paidSum = PAY.paid.reduce((s, r) => s + r.price, 0);
+  PAY.total = PAY.debt + PAY.paidSum;
+  PAY.earned = PAY.paidSum * RATE; PAY.waiting = PAY.debt * RATE;
+  S.sel = S.sel.filter(k => PAY.queue.some(r => r.key === k));
+  return changed;
+}
+function rowOfPath(p){ let cur = p; while (cur && cur !== '/') { const r = PAY.linkByPath.get(cur); if (r) return r; cur = parentOf(cur); } return null; }
+function rowsUnder(p){ const pre = p === '/' ? '/' : p + '/'; return PAY.rows.filter(r => r.paths.some(x => x.startsWith(pre))); }
+const selRows = () => PAY.queue.filter(r => S.sel.includes(r.key));
+function oldShare(rows){ let o = 0, f = 0; for (const r of rows) { if (PAY.fresh.has(r.key)) f += r.price; else o += r.price; } return (o + f) ? o / (o + f) : 1; }
+function canAdd(r){ if (!PAY.fresh.has(r.key)) return true; return oldShare(selRows().concat([r])) >= OLD_MIN; }
+function levelOf(v){ let i = 0; LEVELS.forEach((l, k) => { if (v >= l.min) i = k; }); return i; }
+function toggleSel(key){
+  const r = PAY.byKey.get(key);
+  if (!r || !PAY.queue.includes(r)) return;
+  if (S.sel.includes(key)) {
+    S.sel = S.sel.filter(k => k !== key);
+    while (oldShare(selRows()) < OLD_MIN) {
+      const last = selRows().filter(x => PAY.fresh.has(x.key)).pop();
+      if (!last) break;
+      S.sel = S.sel.filter(k => k !== last.key);
+      toast('«' + last.name + '» убрана: старые работы должны быть не меньше ' + Math.round(OLD_MIN * 100) + '% суммы');
+    }
+  } else {
+    if (!canAdd(r)) { toast('Сначала добавьте старые работы: они должны быть не меньше ' + Math.round(OLD_MIN * 100) + '% суммы пакета'); return; }
+    S.sel.push(key);
+  }
+  S.budget = null; saveUI();
+}
+function pickBudget(b){
+  S.sel = []; let sum = 0;
+  for (const r of PAY.queue) { if (sum + r.price > b) continue; if (!canAdd(r)) continue; S.sel.push(r.key); sum += r.price; }
+  S.budget = b; saveUI();
+}
+
+/* ---------- sequences for the viewer ---------- */
+const SEQ = {};
+async function collectMedia(p, out, depth){
+  let d = D.dirs.get(p);
+  if (!d) { try { await apiList(p); } catch (e) {} d = D.dirs.get(p); }
+  if (!d) return;
+  const vis = d.items.filter(i => !hidden(i));
+  vis.filter(isMedia).sort(byName).forEach(i => out.push(i));
+  if (depth < 3) for (const s of vis.filter(i => i.t === 'dir').sort(byName)) await collectMedia(s.p, out, depth + 1);
+}
+async function rowMedia(r){
+  const out = [];
+  for (const p of r.paths) { const it = D.idx.get(p); if (it && it.t === 'file') { if (isMedia(it)) out.push(it); } else await collectMedia(p, out, 0); }
+  return out;
+}
+
+/* ---------- rendering helpers ---------- */
+function payChip(row){
+  if (!row) return '';
+  if (row.status === 'paid') return '<span class="chip paid">оплачено</span>';
+  if (row.price == null) return '<span class="chip wait">ждёт цены</span>';
+  return '<span class="chip unpaid">не оплачено</span>';
+}
+function chipsTop(isNew, row){ const a = (isNew ? '<span class="chip new">новое</span>' : '') + payChip(row); return a ? '<span class="chips">' + a + '</span>' : ''; }
+function fileTile(it, seq, i){
+  const isNew = it.c > S.prevVisit;
+  const posted = repTools() && S.posted.has(it.p);
+  return '<button class="tile" data-act="view" data-seq="' + seq + '" data-i="' + i + '"><span class="thumb">' + cvHTML(it.p) +
+    (isVideo(it) ? '<span class="chip play">' + ICON.play + '<span>видео</span></span>' : '') +
+    chipsTop(isNew, rowOfPath(it.p)) +
+    (posted ? '<span class="chip posted" title="Передано">' + ICON.check + '</span>' : '') +
+    '</span><span class="t-name">' + esc(tileTitle(it)) + '</span><span class="t-meta">' + fmtDate(it.c) + (it.s ? ' · ' + mb(it.s) : '') + '</span></button>';
+}
+function dirTile(d){
+  const s = stats().get(d.p);
+  const isNew = s && (s.newest || 0) > S.prevVisit;
+  return '<a class="tile album" href="' + fHref(d.p) + '"><span class="thumb">' + cvHTML(d.p) +
+    '<span class="chip count">' + ICON.stack + '<span class="st" data-p="' + esc(d.p) + '" data-short="1">' + esc(countLine(s, true)) + '</span></span>' +
+    chipsTop(isNew, rowOfPath(d.p)) +
+    '</span><span class="t-name">' + esc(title(d)) + '</span><span class="t-meta">' + fmtDate((s && s.newest) || d.c) + '</span></a>';
+}
+const skelTiles = n => Array.from({length: n}, () => '<div class="tile skel" aria-hidden="true"><span class="thumb"></span><span class="t-name"></span></div>').join('');
+const kindOk = it => S.kind === 'all' ? true : it.t === 'dir' ? (() => { const s = stats().get(it.p); return !s || !s.full || (S.kind === 'video' ? s.v : s.i) > 0; })() : (S.kind === 'video' ? isVideo(it) : isImage(it));
+function seg(act, cur, opts){ return '<div class="seg" role="group">' + opts.map(([v, l]) => '<button data-act="' + act + '" data-v="' + v + '" aria-pressed="' + (cur === v) + '">' + l + '</button>').join('') + '</div>'; }
+const kindSeg = () => seg('kind', S.kind, [['all', 'Все'], ['video', 'Видео'], ['image', 'Картинки']]);
+
+let NI = {ver: -1};
+function newInfo(){
+  if (NI.ver === D.ver) return NI;
+  const all = [];
+  for (const it of D.idx.values()) if (isMedia(it) && !underHidden(it.p)) all.push(it);
+  all.sort((a, b) => b.c - a.c);
+  const fresh = all.filter(i => i.c > S.prevVisit);
+  NI = {ver: D.ver, list: all.slice(0, 16), v: fresh.filter(isVideo).length, i: fresh.filter(isImage).length};
+  NI.sig = NI.list.map(i => i.p).join('|') + NI.v + ':' + NI.i;
+  return NI;
+}
+
+/* ---------- views ---------- */
+function headerHTML(){
+  const r = S.route.v;
+  const cur = k => (k === 'home' && ['home', 'folder', 'viewer'].includes(r)) || k === r || (k === 'pay' && r === 'show');
+  const tabs = [['home', 'Главная', '#/'], ['pay', 'Оплата', '#/pay'], ['plan', 'Прогноз', '#/plan']];
+  if (repLayer()) tabs.push(['awards', 'Награды', '#/awards']);
+  tabs.push(['order', 'Заказать', '#/order']);
+  if (isAdmin()) tabs.push(['admin', 'Управление', '#/admin']);
+  const ni = newInfo();
+  return '<div class="wrap top-in"><a class="brand" href="#/"><span class="logo">' + ICON.play + '</span><span><b>' + esc(String(CFG.studio).toUpperCase()) + '</b><small>Кабинет «' + esc(CFG.client) + '»</small></span></a>' +
+    '<nav class="nav" aria-label="Разделы">' + tabs.map(([k, l, h]) => '<a href="' + h + '"' + (cur(k) ? ' aria-current="page"' : '') + '>' + l + (k === 'home' && (ni.v + ni.i) ? '<i class="dot" aria-hidden="true"></i>' : '') + '</a>').join('') + '</nav>' +
+    '<div class="top-r"><span class="sync" id="sync">' + syncHTML() + '</span><button class="icon-btn" data-act="opts" aria-label="Настройки">' + ICON.gear + '</button></div></div>';
+}
+function syncHTML(){
+  const C = D.crawl;
+  if (C.running) { const pct = C.total ? Math.min(99, Math.round(C.done / C.total * 100)) : 0; return '<i class="spin" aria-hidden="true"></i><span class="txt">Обновляю Диск ' + pct + '%</span>'; }
+  if (C.failed) return '<button class="linkbtn" data-act="recrawl">Диск не ответил, повторить</button>';
+  return '';
+}
+function updateSync(){ const el = $('#sync'); if (el) el.innerHTML = syncHTML(); }
+
+function heroHTML(){
+  const P = PAY;
+  const pct = P.total ? P.paidSum / P.total * 100 : 0;
+  if (repLayer()) {
+    const li = levelOf(P.earned), L = LEVELS[li], N = LEVELS[li + 1];
+    const lp = N ? Math.min(100, (P.earned - L.min) / (N.min - L.min) * 100) : 100;
+    return '<section class="hero" aria-label="Ваш доход"><div><div class="h-label">Ваш доход · ' + Math.round(RATE * 100) + '% с каждой оплаты</div>' +
+      '<div class="h-big">' + rub(P.earned) + '</div><div class="h-sub">Ждёт выкупа ещё <b>' + rub(P.waiting) + '</b></div>' +
+      '<div class="h-bar" role="progressbar" aria-label="Прогресс уровня" aria-valuenow="' + Math.round(lp) + '" aria-valuemin="0" aria-valuemax="100"><i style="width:' + lp + '%"></i></div>' +
+      '<div class="h-bar-cap"><span>Уровень <b>«' + L.name + '»</b></span><span>' + (N ? 'до «' + N.name + '» ' + rub(N.min - P.earned) : 'максимальный уровень') + '</span></div></div>' +
+      '<div class="h-side"><div class="h-stat"><span>К оплате</span><b>' + rub(P.debt) + '</b></div><div class="h-stat"><span>Работ в очереди</span><b>' + P.queue.length + '</b></div>' +
+      '<div class="h-actions"><a class="btn light" href="#/pay">Собрать оплату</a><a class="btn glass" href="#/awards">Награды</a></div></div></section>';
+  }
+  return '<section class="hero" aria-label="Оплата"><div><div class="h-label">К оплате</div><div class="h-big">' + rub(P.debt) + '</div>' +
+    '<div class="h-sub">' + P.queue.length + ' ' + plural(P.queue.length, 'работа ждёт', 'работы ждут', 'работ ждут') + ' оплаты' + (P.noPrice.length ? ', ещё ' + P.noPrice.length + ' без цены' : '') + '</div>' +
+    '<div class="h-bar" role="progressbar" aria-label="Оплачено" aria-valuenow="' + Math.round(pct) + '" aria-valuemin="0" aria-valuemax="100"><i style="width:' + pct + '%"></i></div>' +
+    '<div class="h-bar-cap"><span>Оплачено ' + rub(P.paidSum) + '</span><span><b>' + Math.round(pct) + '%</b> от всех работ</span></div></div>' +
+    '<div class="h-side"><div class="h-stat"><span>Чтобы закрыть за год, в месяц</span><b>≈ ' + rub(round1k(INFLOW + P.debt / 12)) + '</b></div><div class="h-stat"><span>Новые работы в месяц</span><b>≈ ' + rub(INFLOW) + '</b></div>' +
+    '<div class="h-actions"><a class="btn light" href="#/pay">Собрать оплату</a><a class="btn glass" href="#/plan">Прогноз</a></div></div></section>';
+}
+function newBlockHTML(){
+  const ni = newInfo();
+  if (!ni.list.length) {
+    if (D.crawl.running || !D.crawl.ts) return '<div class="block-head"><div><h2>Новое на Диске</h2><p class="muted small">Ищу последние загрузки…</p></div></div><div class="strip">' + skelTiles(6) + '</div>';
+    return '';
+  }
+  SEQ.new = ni.list;
+  const parts = [];
+  if (ni.v) parts.push(ni.v + ' ' + plural(ni.v, 'новый ролик', 'новых ролика', 'новых роликов'));
+  if (ni.i) parts.push(ni.i + ' ' + plural(ni.i, 'новая картинка', 'новые картинки', 'новых картинок'));
+  return '<div class="block-head"><div><h2>Новое на Диске</h2><p class="muted small">' + (parts.length ? parts.join(' и ') + ' с прошлого визита' : 'Последние загрузки') + '</p></div></div>' +
+    '<div class="strip">' + ni.list.map((it, i) => fileTile(it, 'new', i)).join('') + '</div>';
+}
+let lastSecSig = '';
+function sectionsHTML(){
+  const root = D.dirs.get('/');
+  if (!root) return D.crawl.failed ? '<div class="notice bad">Не получилось открыть Диск. Проверьте интернет и нажмите «повторить» вверху.</div>' : '<div class="sections">' + Array.from({length: 6}, () => '<div class="sec" aria-hidden="true"><span class="cv"></span></div>').join('') + '</div>';
+  const st = stats();
+  let dirs = root.items.filter(i => i.t === 'dir' && !hidden(i));
+  dirs.sort((a, b) => ((st.get(b.p) || {}).newest || b.c) - ((st.get(a.p) || {}).newest || a.c));
+  dirs = dirs.filter(kindOk);
+  const files = root.items.filter(i => isMedia(i) && kindOk(i)).sort(byName);
+  SEQ.root = files;
+  lastSecSig = dirs.map(i => i.p).join('|') + '#' + S.kind;
+  return '<div class="sections">' + dirs.map(d => {
+    const s = st.get(d.p); const isNew = s && (s.newest || 0) > S.prevVisit;
+    return '<a class="sec" href="' + fHref(d.p) + '">' + cvHTML(d.p) + (isNew ? '<span class="chip new">новое</span>' : '') + '<span class="sec-in"><b>' + esc(title(d)) + '</b><span class="st" data-p="' + esc(d.p) + '">' + esc(countLine(s)) + '</span></span></a>';
+  }).join('') + '</div>' + (files.length ? '<div class="grid">' + files.map((f, i) => fileTile(f, 'root', i)).join('') + '</div>' : '');
+}
+function secSig(){
+  const root = D.dirs.get('/'); if (!root) return '';
+  const st = stats();
+  const dirs = root.items.filter(i => i.t === 'dir' && !hidden(i)).sort((a, b) => ((st.get(b.p) || {}).newest || b.c) - ((st.get(a.p) || {}).newest || a.c)).filter(kindOk);
+  return dirs.map(i => i.p).join('|') + '#' + S.kind;
+}
+function searchHTML(){
+  const q = norm(S.q.trim());
+  const res = [];
+  for (const it of D.idx.values()) {
+    if (underHidden(it.p) || !(it.t === 'dir' || isMedia(it)) || !kindOk(it)) continue;
+    if (norm(title(it)).includes(q)) res.push(it);
+  }
+  const dirs = res.filter(i => i.t === 'dir').sort((a, b) => b.c - a.c).slice(0, 40);
+  const files = res.filter(i => i.t !== 'dir').sort((a, b) => b.c - a.c).slice(0, 160);
+  SEQ.search = files;
+  const note = D.crawl.running ? '<p class="muted small">Диск ещё загружается, результаты дополнятся через несколько секунд.</p>' : '';
+  if (!dirs.length && !files.length) return note + '<div class="empty">По запросу «' + esc(S.q.trim()) + '» ничего не нашлось</div>';
+  return note + (dirs.length ? '<h3 class="sub-h">Папки</h3><div class="grid">' + dirs.map(dirTile).join('') + '</div>' : '') +
+    (files.length ? '<h3 class="sub-h">Файлы</h3><div class="grid">' + files.map((f, i) => fileTile(f, 'search', i)).join('') + '</div>' : '');
+}
+function vHome(){
+  return heroHTML() +
+    '<section class="block" id="new-block">' + newBlockHTML() + '</section>' +
+    '<section class="block"><div class="block-head"><div><h2>Все работы</h2><p class="muted small">Папки с Яндекс Диска, всё новое появляется здесь само</p></div>' +
+    '<div class="tools"><label class="search">' + ICON.search + '<input id="q" type="search" placeholder="Найти ролик или картинку" value="' + esc(S.q) + '" autocomplete="off" enterkeyhint="search" aria-label="Поиск"></label>' + kindSeg() + '</div></div>' +
+    '<div id="works">' + (S.q.trim() ? searchHTML() : sectionsHTML()) + '</div></section>';
+}
+
+let renderedDir = null;
+function crumbs(p){
+  let html = '<a href="#/">Все работы</a>';
+  if (p === '/') return html;
+  const segs = p.split('/').filter(Boolean);
+  segs.forEach((s, i) => {
+    const sub = '/' + segs.slice(0, i + 1).join('/');
+    html += '<span aria-hidden="true">›</span>' + (i === segs.length - 1 ? '<span>' + esc(title(node(sub))) + '</span>' : '<a href="' + fHref(sub) + '">' + esc(title(node(sub))) + '</a>');
+  });
+  return html;
+}
+function folderBanner(p){
+  const own = rowOfPath(p);
+  if (own) {
+    const inQ = PAY.queue.includes(own), sel = S.sel.includes(own.key);
+    const state = own.status === 'paid' ? 'Оплачено' : own.price == null ? 'Цена уточняется' : 'Ждёт оплаты · ' + rub(own.price) + (repLayer() ? ' · ваши +' + rub(own.price * RATE) : '');
+    return '<div class="banner' + (own.status === 'paid' ? ' ok' : '') + '"><div><b>№' + own.n + ' · ' + esc(own.name) + '</b><span>' + state + '</span></div>' +
+      (inQ ? '<button class="btn' + (sel ? ' ghost' : '') + '" data-act="sel" data-k="' + own.key + '">' + (sel ? 'В пакете ' + ICON.check : 'Добавить в пакет') + '</button>' : '') + '</div>';
+  }
+  const rows = rowsUnder(p).filter(r => r.status !== 'paid');
+  if (!rows.length) return '';
+  const sum = rows.reduce((s, r) => s + (r.price || 0), 0);
+  return '<div class="banner"><div><b>В этой папке ' + rows.length + ' ' + plural(rows.length, 'работа ждёт', 'работы ждут', 'работ ждут') + ' оплаты</b><span>' + (sum ? 'на ' + rub(sum) : 'цена уточняется') + (repLayer() && sum ? ' · ваши +' + rub(sum * RATE) : '') + '</span></div><a class="btn" href="#/pay">К оплате</a></div>';
+}
+function folderBody(p){
+  const d = D.dirs.get(p);
+  renderedDir = d || null;
+  if (!d) return '<div class="grid">' + skelTiles(10) + '</div>';
+  const st = stats();
+  const vis = d.items.filter(i => !hidden(i));
+  let dirs = vis.filter(i => i.t === 'dir' && kindOk(i));
+  const files = vis.filter(i => isMedia(i) && kindOk(i)).sort(byName);
+  if (S.sort === 'az') dirs.sort(byName); else dirs.sort((a, b) => ((st.get(b.p) || {}).newest || b.c) - ((st.get(a.p) || {}).newest || a.c));
+  SEQ.folder = files;
+  const other = vis.filter(i => i.t === 'file' && !isMedia(i)).length;
+  if (!dirs.length && !files.length) return '<div class="empty">Здесь пока нет ' + (S.kind === 'video' ? 'роликов' : S.kind === 'image' ? 'картинок' : 'роликов и картинок') + '.</div>';
+  return (dirs.length ? '<div class="grid">' + dirs.map(dirTile).join('') + '</div>' : '') +
+    (files.length ? '<div class="grid">' + files.map((f, i) => fileTile(f, 'folder', i)).join('') + '</div>' : '') +
+    (other ? '<p class="muted small">Ещё ' + other + ' ' + plural(other, 'файл', 'файла', 'файлов') + ' других типов (звук, исходники, документы) лежат на Диске.</p>' : '');
+}
+function vFolder(p){
+  const d = D.dirs.get(p);
+  const s = stats().get(p);
+  const hasSub = d && d.items.some(i => i.t === 'dir' && !hidden(i));
+  const zipOk = p !== '/' && s && s.full && s.size > 0 && s.size < 1.5e9;
+  return '<div class="f-head"><nav class="crumbs" aria-label="Путь">' + crumbs(p) + '</nav><h1>' + esc(title(node(p))) + '</h1>' +
+    '<div class="f-bar"><span class="muted st" data-p="' + esc(p) + '">' + esc(countLine(s)) + '</span><div class="tools">' +
+    (hasSub ? seg('sort', S.sort, [['new', 'Сначала новые'], ['az', 'По названию']]) : '') + kindSeg() +
+    (zipOk ? '<button class="btn line" data-act="zip" data-p="' + esc(p) + '">' + ICON.dl + '<span>Скачать папку</span></button>' : '') + '</div></div></div>' +
+    folderBanner(p) + '<div class="block" id="folder-body">' + folderBody(p) + '</div>';
+}
+
+function rowHTML(r, selectable){
+  const sel = S.sel.includes(r.key);
+  const locked = selectable && !sel && !canAdd(r);
+  const pos = PAY.queue.indexOf(r);
+  const tag = r.status === 'paid' ? '' : PAY.fresh.has(r.key) ? '<span class="tag">свежая</span>' : (pos > -1 && pos < 5 ? '<span class="tag old">в начале очереди</span>' : '');
+  const left = selectable
+    ? '<button class="chk" data-act="sel" data-k="' + r.key + '" aria-pressed="' + sel + '" aria-label="' + (sel ? 'Убрать из пакета' : 'Добавить в пакет') + ': ' + esc(r.name) + '">' + (sel ? ICON.check : '') + '</button>'
+    : (r.status === 'paid' ? '<span class="chk done" aria-hidden="true">' + ICON.check + '</span>' : '<span class="chk blank" aria-hidden="true"></span>');
+  const thumb = r.paths.length
+    ? '<button class="r-thumb" data-act="row-view" data-k="' + r.key + '" aria-label="Смотреть: ' + esc(r.name) + '">' + cvHTML(r.paths[0]) + '<span class="chip play">' + ICON.play + '</span></button>'
+    : '<span class="r-thumb none" aria-hidden="true">' + ICON.image + '</span>';
+  const right = r.price == null ? '<span class="muted small">цена уточняется</span>'
+    : '<span class="price">' + rub(r.price) + '</span>' + (repLayer() && r.status !== 'paid' ? '<span class="cut">+' + rub(r.price * RATE) + ' вам</span>' : '');
+  return '<div class="row' + (sel ? ' sel' : '') + (locked ? ' locked' : '') + '">' + left + thumb +
+    '<div class="r-main"><div class="r-name">№' + r.n + ' · ' + esc(r.name) + '</div><div class="r-sub"><span>' + esc(r.type) + '</span>' + tag + (r.dyn ? '<span class="tag disk">с Диска</span>' : '') + (r.note ? '<span>' + esc(r.note) + '</span>' : '') + '</div>' +
+    (locked ? '<div class="lockmsg">Откроется, когда старые работы составят ' + Math.round(OLD_MIN * 100) + '% суммы пакета</div>' : '') + '</div><div class="r-right">' + right + '</div></div>';
+}
+function vPay(){
+  const P = PAY, pct = P.total ? P.paidSum / P.total * 100 : 0;
+  return '<div class="page-head"><h1>Оплата</h1><p class="muted">Отметьте работы, которые отдаёте на оплату. Список для начальства соберётся сам.</p></div>' +
+    '<div class="stats"><div class="stat"><span>К оплате</span><b>' + rub(P.debt) + '</b><small>' + P.queue.length + ' ' + plural(P.queue.length, 'работа', 'работы', 'работ') + '</small></div>' +
+    '<div class="stat"><span>Оплачено</span><b>' + rub(P.paidSum) + '</b><small>' + Math.round(pct) + '% от всех работ</small></div>' +
+    (repLayer() ? '<div class="stat gold"><span>Ваши ' + Math.round(RATE * 100) + '% с очереди</span><b>' + rub(P.waiting) + '</b><small>приходят по мере оплаты</small></div>'
+      : '<div class="stat"><span>Чтобы закрыть за год</span><b>≈ ' + rub(round1k(INFLOW + P.debt / 12)) + '</b><small>в месяц, с учётом новых работ</small></div>') + '</div>' +
+    '<p class="hint">Самые старые работы идут первыми. Свежие можно добавить, когда старые составляют не меньше ' + Math.round(OLD_MIN * 100) + '% суммы пакета.</p>' +
+    '<div class="tools"><span class="muted small">Собрать пакет на сумму:</span>' + BUDGETS.map(b => '<button class="pill' + (S.budget === b ? ' on' : '') + '" data-act="budget" data-v="' + b + '">до ' + shortRub(b) + '</button>').join('') +
+    (S.sel.length ? '<button class="pill" data-act="clear">Очистить</button>' : '') + '</div>' +
+    '<div class="list">' + (P.queue.length ? P.queue.map(r => rowHTML(r, true)).join('') : '<div class="empty">Все работы оплачены</div>') + '</div>' +
+    (P.noPrice.length ? '<section class="block"><div class="block-head"><div><h2>Ждут цены</h2><p class="muted small">Работы сданы, цену согласуем отдельно</p></div></div><div class="list">' + P.noPrice.map(r => rowHTML(r, false)).join('') + '</div></section>' : '') +
+    (P.paid.length ? '<details class="fold"><summary><h2>Оплачено</h2><span class="muted small">' + P.paid.length + ' ' + plural(P.paid.length, 'работа', 'работы', 'работ') + ' на ' + rub(P.paidSum) + '</span></summary><div class="list">' + P.paid.map(r => rowHTML(r, false)).join('') + '</div></details>' : '');
+}
+function dockHTML(){
+  const items = selRows(), sum = items.reduce((s, r) => s + r.price, 0), mine = sum * RATE;
+  const li = levelOf(PAY.earned), li2 = levelOf(PAY.earned + mine);
+  const up = repLayer() && li2 > li ? ' · после оплаты уровень «' + LEVELS[li2].name + '»' : '';
+  return '<div class="dock"><div class="wrap dock-in"><div class="dock-txt">' + (items.length
+    ? '<span>Пакет: <b class="num">' + items.length + '</b> · <b class="num">' + rub(sum) + '</b>' + (repLayer() ? ' · <span class="plus">+' + rub(mine) + ' вам</span>' : '') + '</span><small>старые работы ' + Math.round(oldShare(items) * 100) + '% суммы' + up + '</small>'
+    : '<span>Пакет пуст</span><small>Отметьте работы или выберите сумму</small>') +
+    '</div><button class="btn" data-act="report"' + (items.length ? '' : ' disabled') + '>Список для начальства</button></div></div>';
+}
+function vShow(ns){
+  const rows = ns.map(n => PAY.rows.find(r => String(r.n) === String(n))).filter(Boolean);
+  if (!rows.length) return '<div class="empty">Список не найден. Откройте раздел «Оплата».</div>';
+  const sum = rows.reduce((s, r) => s + (r.status !== 'paid' && r.price ? r.price : 0), 0);
+  return '<div class="page-head"><span class="eyebrow">Работы на оплату</span><h1>' + rub(sum) + ' за ' + rows.length + ' ' + plural(rows.length, 'работу', 'работы', 'работ') + '</h1><p class="muted">Все работы выполнены и лежат на Диске. Нажмите на картинку, чтобы посмотреть.</p></div>' +
+    '<div class="list">' + rows.map(r => rowHTML(r, false)).join('') + '</div>' +
+    '<div class="actions"><button class="btn" data-act="show-copy" data-ns="' + esc(rows.map(r => r.n).join('.')) + '">Скопировать список</button><a class="btn line" href="#/">Смотреть все работы</a></div>';
+}
+
+function vPlan(){
+  const debt = PAY.debt;
+  const oldDebt = PAY.queue.filter(r => !PAY.fresh.has(r.key)).reduce((s, r) => s + r.price, 0);
+  const pace = S.pace, net = pace - INFLOW;
+  const full = net > 0 ? debt / net : Infinity;
+  const oldM = oldDebt / (pace * OLD_MIN);
+  const months = m => { const k = Math.max(1, Math.ceil(m)); return m < 1 ? 'меньше месяца' : k + ' ' + plural(k, 'месяц', 'месяца', 'месяцев'); };
+  const at = m => { const d = new Date(); d.setDate(1); d.setMonth(d.getMonth() + Math.ceil(m)); return d.toLocaleDateString('ru-RU', {day: 'numeric', month: 'long', year: 'numeric'}).replace(/\s?г\.$/, ''); };
+  const rows = []; let left = debt;
+  while (left > 0 && rows.length < 24 && net > 0) { left = Math.max(0, left - net); rows.push(left); }
+  let chart = '';
+  if (rows.length) {
+    const W = 40, H = 150, pad = 30, n = rows.length + 1, vals = [debt].concat(rows);
+    const w = n * W + pad;
+    const mon = i => { const d = new Date(); d.setDate(1); d.setMonth(d.getMonth() + i); return d.toLocaleDateString('ru-RU', {month: 'short'}).replace('.', ''); };
+    chart = '<div class="chart"><svg viewBox="0 0 ' + w + ' ' + (H + 40) + '" style="max-width:' + Math.round(w * 1.25) + 'px" role="img" aria-label="Остаток долга по месяцам">' +
+      '<line class="axis" x1="' + pad + '" y1="' + H + '" x2="' + w + '" y2="' + H + '"/>' +
+      '<text x="0" y="16">' + Math.round(debt / 1000) + 'к</text><text x="0" y="' + H + '">0</text>' +
+      vals.map((v, i) => { const h = Math.max(v ? 3 : 0, v / debt * (H - 20)); const x = pad + i * W + 6; return '<rect class="bar' + (v === 0 ? ' done' : '') + '" x="' + x + '" y="' + (H - h) + '" width="' + (W - 12) + '" height="' + h + '" rx="5"><title>' + mon(i) + ': ' + rub(v) + '</title></rect>' + (v === 0 ? '<rect class="bar done" x="' + x + '" y="' + (H - 4) + '" width="' + (W - 12) + '" height="4" rx="2"/>' : '') + '<text x="' + (x + (W - 12) / 2) + '" y="' + (H + 18) + '" text-anchor="middle">' + mon(i) + '</text>'; }).join('') +
+      '</svg></div>';
+  }
+  return '<div class="page-head"><h1>Прогноз оплаты</h1><p class="muted">Сколько месяцев до полной оплаты при разном темпе. Учтено, что каждый месяц добавляются новые работы примерно на ' + rub(INFLOW) + '.</p></div>' +
+    '<div class="tools"><span class="muted small">Оплата в месяц:</span>' + PACES.map(v => '<button class="pill' + (pace === v ? ' on' : '') + '" data-act="pace" data-v="' + v + '">' + shortRub(v) + '</button>').join('') + '</div>' +
+    '<div class="cards">' +
+      '<div class="card"><h3>Нужный темп</h3><p>Закрыть за полгода</p><div class="big">' + rub(round1k(INFLOW + debt / 6)) + ' <small>в месяц</small></div><p>Закрыть за год</p><div class="big">' + rub(round1k(INFLOW + debt / 12)) + ' <small>в месяц</small></div></div>' +
+      '<div class="card"><h3>Долг сейчас</h3><div class="big">' + rub(debt) + '</div><p>старые работы ' + rub(oldDebt) + ', свежие ' + rub(debt - oldDebt) + '</p></div>' +
+      '<div class="card"><h3>Старые работы закроются</h3><div class="big">' + months(oldM) + '</div><p>к ' + at(oldM) + ', если на них идёт ' + Math.round(OLD_MIN * 100) + '% каждой оплаты</p></div>' +
+      '<div class="card"><h3>Полная оплата</h3><div class="big">' + (isFinite(full) ? months(full) : 'не наступит') + '</div><p>' + (isFinite(full) ? 'к ' + at(full) + ', долг тает на ' + rub(net) + ' в месяц' : 'при таком темпе новые работы копятся быстрее, чем оплачиваются') + '</p></div>' +
+      (repLayer() ? '<div class="card"><h3>Ваш доход</h3><div class="big" style="color:var(--ok)">+' + rub(pace * RATE) + ' <small>в месяц</small></div><p>' + (isFinite(full) ? 'за ' + months(full) + ' это ' + rub(pace * RATE * Math.ceil(full)) : 'каждый месяц, пока идут оплаты') + '</p></div>' : '') +
+    '</div>' + chart;
+}
+
+function vAwards(){
+  const P = PAY, li = levelOf(P.earned);
+  const types = [...new Set(P.rows.map(r => r.type))];
+  const closed = types.some(t => P.rows.filter(r => r.type === t).every(r => r.status === 'paid'));
+  const badges = [
+    ['1', 'Первый выкуп', 'Оплачена первая работа', P.paid.length > 0],
+    ['№1', 'Начало очереди', 'Оплачена работа №1', P.rows.some(r => r.n === 1 && r.status === 'paid')],
+    ['5', 'Пятёрка', 'Оплачено 5 работ', P.paid.length >= 5],
+    ['Р', 'Раздел закрыт', 'Один раздел оплачен целиком', closed],
+    ['½', 'Полпути', 'Оплачена половина всех работ', P.paidSum >= P.total / 2 && P.total > 0],
+    ['100', 'Сто тысяч', 'Оплачено работ на 100 000 ₽', P.paidSum >= 100000],
+    ['✓', 'Чистый счёт', 'Все работы с ценой оплачены', P.queue.length === 0]
+  ];
+  return '<div class="page-head"><h1>Награды</h1><p class="muted">Уровень растёт вместе с вашим доходом. Закрывайте разделы целиком, чтобы получить больше.</p></div>' +
+    '<section class="block"><h2>Значки</h2><div class="badges">' + badges.map(([i, t, d, ok]) => '<div class="badge' + (ok ? ' got' : '') + '"><span class="ico">' + i + '</span><b>' + t + '</b><small>' + d + '</small></div>').join('') + '</div></section>' +
+    '<section class="block"><h2>Уровни</h2><div class="ladder">' + LEVELS.map((l, k) => '<div class="rung' + (k === li ? ' cur' : '') + (k < li ? ' done' : '') + '"><span>' + l.name + '</span><span class="num">от ' + rub(l.min) + '</span></div>').join('') + '</div></section>' +
+    '<section class="block"><h2>Задания по разделам</h2><div class="cards">' + types.map(t => {
+      const all = P.rows.filter(r => r.type === t), done = all.filter(r => r.status === 'paid');
+      const left = all.filter(r => r.status !== 'paid' && r.price != null);
+      const bonus = left.reduce((s, r) => s + r.price * RATE, 0);
+      return '<div class="quest"><div class="q-head"><b>' + esc(t) + '</b><span class="muted num">' + done.length + ' из ' + all.length + '</span></div><div class="qbar"><i style="width:' + (all.length ? done.length / all.length * 100 : 0) + '%"></i></div><div class="q-reward">' + (done.length === all.length ? 'Раздел закрыт' : 'Закрыть раздел: ваши +' + rub(bonus)) + '</div></div>';
+    }).join('') + '</div></section>';
+}
+
+const SERVICES = [
+  {t: 'Рекламные ролики', d: 'Сюжетные ролики с персонажами бренда для соцсетей и рекламы.', p: '/Реклама 2026/Рекламные'},
+  {t: 'Мультфильмы', d: 'Серии с персонажами и версии на других языках.', p: '/Реклама 2026/Мультфильмы'},
+  {t: 'Трендовые ролики', d: 'Популярные тренды из TikTok и Reels с вашими персонажами.', p: '/Реклама 2026/Тренды'},
+  {t: 'Видеокреативы для рекламы', d: 'Короткие ролики сразу во всех форматах: 9:16, 1:1, 3:4 и 16:9.', p: '/Реклама 2026/Посты/Шустер/Шустер 2026/Видео креативы'},
+  {t: 'Посты и карусели', d: 'Контент для групп на месяц вперёд.', p: '/Реклама 2026/Посты'},
+  {t: 'Креативы для маркетплейсов', d: 'Слайды и картинки для карточек товаров.', p: '/Реклама 2026/Статичные креативы'},
+  {t: 'Рич-контент для Ozon и Wildberries', d: 'Расширенное описание товара блоками: польза, состав, как применять.', p: ''},
+  {t: 'Оформление групп', d: 'Обложки, аватарки и видеообложки для ВКонтакте.', p: '/Реклама 2026/Оформление групп ВК'},
+  {t: '3D-рендеры и упаковка', d: 'Рендеры товаров и дизайн упаковки.', p: '/Файлы Статичные Рендеры'},
+  {t: 'Игры и приложения', d: 'Мини-игры с персонажами бренда и приложения для покупателей.', p: ''}
+];
+function vOrder(){
+  return '<div class="page-head"><h1>Заказать новую работу</h1><p class="muted">Выберите, что нужно, опишите задачу, и сообщение для студии соберётся само.' + (repLayer() ? ' С каждого заказа ваши ' + Math.round(RATE * 100) + '% после оплаты.' : '') + '</p></div>' +
+    '<div class="services">' + SERVICES.map((s, i) => '<article class="svc">' +
+      (s.p ? '<a class="svc-img" href="' + fHref(s.p) + '" aria-label="Примеры: ' + esc(s.t) + '">' + cvHTML(s.p) + '</a>' : '<div class="svc-img empty">' + ICON.spark + '</div>') +
+      '<div class="svc-body"><h3>' + esc(s.t) + '</h3><p>' + esc(s.d) + '</p><div class="svc-actions"><button class="btn" data-act="order" data-i="' + i + '">Заказать</button>' + (s.p ? '<a class="btn line" href="' + fHref(s.p) + '">Примеры</a>' : '') + '</div></div></article>').join('') + '</div>';
+}
+
+function newWorksText(days){
+  const since = Date.now() - days * 864e5;
+  const groups = new Map();
+  for (const it of D.idx.values()) {
+    if (!isMedia(it) || it.c < since || underHidden(it.p)) continue;
+    const g = parentOf(it.p);
+    if (!groups.has(g)) groups.set(g, {v: 0, i: 0, c: 0});
+    const x = groups.get(g); if (isVideo(it)) x.v++; else x.i++; x.c = Math.max(x.c, it.c);
+  }
+  const list = [...groups.entries()].sort((a, b) => b[1].c - a[1].c);
+  if (!list.length) return '';
+  const lines = list.slice(0, 30).map(([g, x]) => {
+    const parts = []; if (x.v) parts.push(x.v + ' видео'); if (x.i) parts.push(x.i + ' ' + plural(x.i, 'картинка', 'картинки', 'картинок'));
+    return '• ' + pathTitle(g) + ': ' + parts.join(', ');
+  });
+  return 'Добрый день! На Диске новые работы для «' + CFG.client + '» за последние ' + days + ' ' + plural(days, 'день', 'дня', 'дней') + ':\n' + lines.join('\n') + '\n\nВсё можно посмотреть в кабинете: ' + shareLink();
+}
+function reminderText(){
+  const q = PAY.queue.slice(0, 5);
+  return 'Добрый день! Напоминаю про оплату работ для «' + CFG.client + '».\nСейчас к оплате ' + rub(PAY.debt) + ' за ' + PAY.queue.length + ' ' + plural(PAY.queue.length, 'работу', 'работы', 'работ') + '. Первые в очереди:\n' +
+    q.map((r, i) => (i + 1) + '. №' + r.n + ' ' + r.name + ', ' + rub(r.price)).join('\n') +
+    '\n\nЧтобы закрыть всё за год, нужно около ' + rub(round1k(INFLOW + PAY.debt / 12)) + ' в месяц, за полгода около ' + rub(round1k(INFLOW + PAY.debt / 6)) + '.\nСписок и все работы в кабинете: ' + shareLink();
+}
+function untaggedNew(){
+  const out = [];
+  for (const [p, d] of D.dirs) {
+    if (p === '/' || underHidden(p)) continue;
+    const nd = D.idx.get(p); if (!nd) continue;
+    const hasSub = d.items.some(i => i.t === 'dir' && !hidden(i));
+    if (!hasSub) {
+      const s = stats().get(p);
+      if (((s && s.newest) || nd.c) > SNAP && !rowOfPath(p) && !parseTag(nd.n) && s && (s.v + s.i)) out.push(nd);
+    } else for (const f of d.items) if (isMedia(f) && f.c > SNAP && !rowOfPath(f.p) && !parseTag(f.n)) out.push(f);
+  }
+  return out.sort((a, b) => b.c - a.c).slice(0, 40);
+}
+let adminDays = 7;
+function vAdmin(){
+  const local = location.protocol === 'file:';
+  const links = ADM ? [
+    ['Для представителя', 'Личная ссылка: с его процентом, уровнями и наградами', shareLink({k: ADM.repKey})],
+    ['Для начальника и бухгалтера', 'Без процентов представителя', shareLink()],
+    ['Ваша ссылка для управления', 'Никому не отправляйте', shareLink({a: ADM.admKey})]
+  ] : [];
+  const fresh = untaggedNew();
+  const C = D.crawl;
+  return '<div class="page-head"><h1>Управление</h1><p class="muted">Этот раздел видите только вы.</p></div>' +
+    '<section class="panel"><h2>Ссылки</h2>' + (local ? '<p class="notice">Это файл на вашем компьютере. Ссылки ниже ведут на кабинет на сайте.</p>' : '') +
+      (links.length ? links.map(([t, d, u], i) => '<div class="field"><span>' + t + ' · ' + d + '</span><div class="linkrow"><code>' + esc(u) + '</code><button class="btn ghost" data-act="copy-link" data-i="' + i + '">Скопировать</button></div></div>').join('') : '<p class="muted">Ссылки недоступны: откройте кабинет по вашей ссылке для управления.</p>') +
+      '<p class="muted small">Если представитель открыл кабинет на новом телефоне, отправьте ему личную ссылку ещё раз.</p></section>' +
+    '<section class="panel"><h2>Сообщение о новых работах</h2><div class="tools">' + [3, 7, 14, 30].map(d => '<button class="pill' + (adminDays === d ? ' on' : '') + '" data-act="adays" data-v="' + d + '">за ' + d + ' ' + plural(d, 'день', 'дня', 'дней') + '</button>').join('') + '</div>' +
+      '<textarea class="mono" id="msg-new" aria-label="Сообщение о новых работах">' + esc(newWorksText(adminDays) || 'За этот период новых работ на Диске нет.') + '</textarea><div class="actions"><button class="btn" data-act="copy-ta" data-t="msg-new">Скопировать</button><a class="btn line" target="_blank" rel="noopener noreferrer" href="' + esc(tgLink(newWorksText(adminDays))) + '">Отправить в Telegram</a></div></section>' +
+    '<section class="panel"><h2>Напоминание об оплате</h2><textarea class="mono" id="msg-pay" aria-label="Напоминание об оплате">' + esc(reminderText()) + '</textarea><div class="actions"><button class="btn" data-act="copy-ta" data-t="msg-pay">Скопировать</button><a class="btn line" target="_blank" rel="noopener noreferrer" href="' + esc(tgLink(reminderText())) + '">Отправить в Telegram</a></div></section>' +
+    '<section class="panel"><h2>Новое на Диске без цены</h2><p class="muted small">Работы, загруженные после ' + fmtDate(SNAP) + ', которых нет в оплате. Чтобы добавить, допишите цену в названии папки или файла.</p>' +
+      (fresh.length ? '<div class="list">' + fresh.map(it => '<div class="row"><span class="chk blank" aria-hidden="true"></span><a class="r-thumb" href="' + fHref(it.t === 'dir' ? it.p : parentOf(it.p)) + '">' + cvHTML(it.p) + '</a><div class="r-main"><div class="r-name">' + esc(tileTitle(it)) + '</div><div class="r-sub"><span>' + esc(pathTitle(parentOf(it.p))) + '</span><span>' + fmtDate(it.c) + '</span></div></div><div class="r-right"><span class="muted small">без цены</span></div></div>').join('') + '</div>'
+        : '<p class="muted">' + (C.running ? 'Проверяю Диск…' : 'Всё новое уже в оплате.') + '</p>') + '</section>' +
+    '<section class="panel"><h2>Как управлять с Диска</h2><ol class="rules">' +
+      '<li>Новая работа: загрузите файлы в папку «Спецмазь» на Диске. В кабинете она появится сама.</li>' +
+      '<li>Чтобы работа попала в оплату, допишите цену в квадратных скобках в названии папки или файла: <code>Китобой 5 [10000]</code>.</li>' +
+      '<li>Когда работу оплатили, добавьте в скобки слово «оплачено»: <code>Китобой 5 [10000 оплачено]</code>. Так же можно отметить оплату любой работы из списка, дописав <code>[оплачено]</code> к её папке.</li>' +
+      '<li>Скрыть папку или файл от клиента: начните название с подчёркивания: <code>_черновик</code>.</li>' +
+      '<li>Удалить: удалите файл или папку на Диске. Если у работы была цена, долг по ней останется, пока не отметите оплату.</li></ol></section>' +
+    '<section class="panel"><h2>Диск</h2><p class="muted small">' + (C.running ? 'Обновляю: ' + C.done + ' из ' + C.total + ' папок.' : C.ts ? 'Обновлено ' + new Date(C.ts).toLocaleString('ru-RU', {day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'}) + ', ' + D.dirs.size + ' ' + plural(D.dirs.size, 'папка', 'папки', 'папок') + ', ' + (stats().get('/') || {v: 0}).v + ' видео и ' + (stats().get('/') || {i: 0}).i + ' картинок.' : 'Ещё не загружен.') + '</p><div class="actions"><button class="btn ghost" data-act="recrawl"' + (C.running ? ' disabled' : '') + '>Обновить сейчас</button></div></section>';
+}
+
+/* ---------- render ---------- */
+function parseRoute(h){
+  h = String(h || '').replace(/^#/, '');
+  if (h.startsWith('/f=')) return {v: 'folder', p: decodeURIComponent(h.slice(3)) || '/'};
+  if (h.startsWith('/v=')) return {v: 'viewer', p: decodeURIComponent(h.slice(3))};
+  if (h.startsWith('/show=')) return {v: 'show', ns: h.slice(6).split('.').filter(Boolean)};
+  const m = {'/pay': 'pay', '/plan': 'plan', '/awards': 'awards', '/order': 'order', '/admin': 'admin'}[h];
+  return {v: m || 'home'};
+}
+const routeKey = r => r.v === 'viewer' ? 'folder:' + parentOf(r.p) : r.v === 'folder' ? 'folder:' + r.p : r.v === 'show' ? 'show:' + r.ns.join('.') : r.v;
+function applyTheme(){ if (S.theme === 'auto') document.documentElement.removeAttribute('data-theme'); else document.documentElement.setAttribute('data-theme', S.theme); }
+function render(keepScroll){
+  applyTheme();
+  const r = S.route;
+  if (r.v === 'awards' && !repLayer()) { S.route = {v: 'home'}; return render(); }
+  if (r.v === 'admin' && !isAdmin()) { S.route = {v: 'home'}; return render(); }
+  const y = window.scrollY;
+  $('#top').innerHTML = headerHTML();
+  let html;
+  switch (r.v) {
+    case 'folder': html = vFolder(r.p); break;
+    case 'viewer': html = vFolder(parentOf(r.p)); break;
+    case 'pay': html = vPay(); break;
+    case 'plan': html = vPlan(); break;
+    case 'awards': html = vAwards(); break;
+    case 'order': html = vOrder(); break;
+    case 'admin': html = vAdmin(); break;
+    case 'show': html = vShow(r.ns); break;
+    default: html = vHome();
+  }
+  const view = $('#view');
+  view.innerHTML = html;
+  $('#dock').innerHTML = r.v === 'pay' ? dockHTML() : '';
+  document.title = (r.v === 'folder' ? title(node(r.p)) + ' · ' : '') + 'Кабинет ' + CFG.client;
+  fillLive(document);
+  if (keepScroll) window.scrollTo(0, y);
+  if (r.v === 'folder' || r.v === 'viewer') {
+    const p = r.v === 'folder' ? r.p : parentOf(r.p);
+    const d = D.dirs.get(p);
+    if (!d || !d.full || Date.now() - d.ts > 2 * 60e3) apiList(p, true).then(() => liveSoon(true)).catch(() => { if (!D.dirs.get(p)) { const fb = $('#folder-body'); if (fb) fb.innerHTML = '<div class="notice bad">Не получилось открыть папку. Возможно, её удалили или переименовали.</div>'; } });
+  }
+}
+let liveTimer = 0, lastNewSig = '';
+function liveSoon(now){
+  if (now) { clearTimeout(liveTimer); liveTimer = 0; live(); return; }
+  if (liveTimer) return;
+  liveTimer = setTimeout(() => { liveTimer = 0; live(); }, 700);
+}
+function live(){
+  const changed = buildPay();
+  const r = S.route.v;
+  updateSync();
+  if (changed && ['home', 'pay', 'plan', 'show', 'awards', 'admin'].includes(r)) { render(true); return; }
+  if (r === 'home') {
+    const ni = newInfo();
+    if (ni.sig !== lastNewSig) { lastNewSig = ni.sig; const el = $('#new-block'); if (el) el.innerHTML = newBlockHTML(); const top = $('#top'); if (top) top.innerHTML = headerHTML(); }
+    const w = $('#works');
+    if (w) {
+      if (S.q.trim()) { if (D.crawl.running || w.dataset.ver !== String(D.ver)) { w.innerHTML = searchHTML(); w.dataset.ver = D.ver; } }
+      else if (!D.crawl.running || !lastSecSig) { const sig = secSig(); if (sig !== lastSecSig) w.innerHTML = sectionsHTML(); }
+    }
+  }
+  if (r === 'folder' || r === 'viewer') {
+    const p = r === 'folder' ? S.route.p : parentOf(S.route.p);
+    const d = D.dirs.get(p);
+    if (d && d !== renderedDir) { const fb = $('#folder-body'); if (fb) fb.innerHTML = folderBody(p); if (V.open && r === 'viewer') {} }
+  }
+  if (r === 'admin' && !D.crawl.running) {}
+  fillLive(document);
+}
+
+/* ---------- viewer ---------- */
+const V = {open: false, seq: [], i: 0, pushed: false, tok: 0, ret: '#/', dirty: false};
+const vEl = $('#viewer');
+function openViewer(seq, i){
+  if (!seq || !seq.length) return;
+  V.seq = seq.slice(); V.i = Math.max(0, Math.min(i || 0, V.seq.length - 1));
+  const h = '#/v=' + encodeURIComponent(V.seq[V.i].p);
+  if (!V.open) {
+    V.open = true; V.ret = location.hash || '#/';
+    history.pushState({v: 1}, '', h); V.pushed = true;
+    document.body.classList.add('noscroll'); vEl.hidden = false;
+  } else history.replaceState({v: 1}, '', h);
+  drawViewer();
+}
+function closeViewer(fromPop){
+  if (!V.open) return;
+  V.open = false; V.tok++;
+  const vid = vEl.querySelector('video'); if (vid) { try { vid.pause(); vid.removeAttribute('src'); vid.load(); } catch (e) {} }
+  vEl.hidden = true; vEl.innerHTML = ''; document.body.classList.remove('noscroll');
+  if (!fromPop) { if (V.pushed) { V.pushed = false; history.back(); return; } history.replaceState(null, '', V.ret || '#/'); }
+  V.pushed = false;
+}
+function step(d){
+  if (!V.open) return;
+  const n = V.i + d; if (n < 0 || n >= V.seq.length) return;
+  V.i = n; history.replaceState({v: 1}, '', '#/v=' + encodeURIComponent(V.seq[V.i].p)); drawViewer();
+}
+function ratio(w, h){
+  if (!w || !h) return '';
+  const r = w / h, known = [[9, 16], [16, 9], [1, 1], [4, 5], [3, 4], [4, 3], [2, 3]];
+  for (const [a, b] of known) if (Math.abs(r - a / b) < 0.02) return a + ':' + b;
+  return w + '×' + h;
+}
+const dur = s => { if (!isFinite(s)) return ''; s = Math.round(s); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+function viewerPay(row){
+  if (!row) return '';
+  if (row.status === 'paid') return '<div class="v-pay ok"><i class="dotc"></i><span>Оплачено</span><span class="sub">№' + row.n + ' · ' + esc(row.name) + '</span></div>';
+  if (row.price == null) return '<div class="v-pay"><i class="dotc"></i><span>Цена уточняется</span><span class="sub">№' + row.n + ' · ' + esc(row.name) + '</span></div>';
+  const inQ = PAY.queue.includes(row), sel = S.sel.includes(row.key);
+  return '<div class="v-pay"><i class="dotc"></i><span>Ждёт оплаты · ' + rub(row.price) + (repLayer() ? ' · ваши +' + rub(row.price * RATE) : '') + '</span><span class="sub">№' + row.n + ' · ' + esc(row.name) + '</span>' +
+    (inQ ? '<button class="v-btn acc" data-act="v-sel" data-k="' + row.key + '">' + (sel ? 'В пакете ' + ICON.check : 'Добавить в пакет') + '</button>' : '') + '</div>';
+}
+async function drawViewer(){
+  const it = D.idx.get(V.seq[V.i].p) || V.seq[V.i], tok = ++V.tok;
+  const parent = parentOf(it.p), row = rowOfPath(it.p);
+  const posted = S.posted.has(it.p);
+  vEl.innerHTML = '<div class="v-top"><button class="v-ic" data-act="v-close" aria-label="Закрыть">' + ICON.x + '</button><span class="v-count">' + (V.i + 1) + ' / ' + V.seq.length + '</span><span class="v-path">' + esc(pathTitle(parent)) + '</span></div>' +
+    '<div class="v-stage"><div class="v-hold" id="v-hold"><i class="spin" aria-label="Загрузка"></i></div>' +
+    (V.seq.length > 1 ? '<button class="v-nav prev" data-act="v-prev" aria-label="Предыдущий"' + (V.i === 0 ? ' disabled' : '') + '>' + ICON.left + '</button><button class="v-nav next" data-act="v-next" aria-label="Следующий"' + (V.i === V.seq.length - 1 ? ' disabled' : '') + '>' + ICON.right + '</button>' : '') + '</div>' +
+    '<div class="v-cap"><div class="v-title">' + esc(tileTitle(it)) + '</div><div class="v-meta"><span>' + fmtDate(it.c) + '</span>' + (it.s ? '<span>' + mb(it.s) + '</span>' : '') + '<span id="v-dims"></span></div>' + viewerPay(row) +
+    '<div class="v-actions"><button class="v-btn" data-act="v-dl">' + ICON.dl + '<span>Скачать</span></button><button class="v-btn" data-act="v-link">' + ICON.link + '<span>Ссылка</span></button>' +
+    (repTools() ? '<button class="v-btn' + (posted ? ' on' : '') + '" data-act="v-posted">' + ICON.check + '<span>' + (posted ? 'Передано' : 'Отметить: передано') + '</span></button>' : '') +
+    '<a class="v-btn" href="' + fHref(parent) + '" data-act="v-folder">' + ICON.folder + '<span>Папка</span></a></div></div>';
+  const hold = $('#v-hold');
+  const fail = () => { if (tok !== V.tok) return; hold.innerHTML = '<div class="v-err"><span>Не получилось загрузить файл.</span><button class="v-btn" data-act="v-retry">Повторить</button></div>'; };
+  try {
+    if (isVideo(it)) {
+      const href = await fileHref(it);
+      if (tok !== V.tok) return;
+      hold.innerHTML = '<video controls autoplay playsinline preload="auto"' + (freshPv(it) ? ' poster="' + esc(it.pv) + '"' : '') + ' src="' + esc(href) + '"></video>';
+      const v = hold.querySelector('video');
+      let retried = false;
+      v.addEventListener('loadedmetadata', () => { const el = $('#v-dims'); if (el && tok === V.tok) el.textContent = [ratio(v.videoWidth, v.videoHeight), dur(v.duration)].filter(Boolean).join(' · '); });
+      v.addEventListener('error', async () => {
+        if (tok !== V.tok) return;
+        if (retried) return fail();
+        retried = true; it.fts = 0;
+        try { const h2 = await fileHref(it); if (tok === V.tok) { v.src = h2; v.play().catch(() => {}); } } catch (e) { fail(); }
+      });
+      const p = v.play(); if (p && p.catch) p.catch(() => {});
+    } else {
+      if (freshPv(it)) hold.innerHTML = '<img src="' + esc(it.pv) + '" alt="' + esc(tileTitle(it)) + '" referrerpolicy="no-referrer">';
+      if (!(it.big && Date.now() - it.ts < PV_TTL)) await ensureFull(parent);
+      if (tok !== V.tok) return;
+      const cur = D.idx.get(it.p) || it;
+      let src = cur.big || (freshPv(cur) ? cur.pv : '');
+      if (!src) src = await fileHref(cur);
+      if (tok !== V.tok) return;
+      const img = new Image();
+      img.referrerPolicy = 'no-referrer'; img.alt = tileTitle(it);
+      img.onload = () => { if (tok !== V.tok) return; hold.innerHTML = ''; hold.appendChild(img); const el = $('#v-dims'); if (el) el.textContent = ratio(img.naturalWidth, img.naturalHeight); };
+      img.onerror = async () => { if (tok !== V.tok) return; try { const h = await fileHref(cur); if (tok === V.tok && img.src !== h) img.src = h; else fail(); } catch (e) { fail(); } };
+      img.src = src;
+    }
+  } catch (e) { fail(); }
+  const nx = V.seq[V.i + 1];
+  if (nx && isImage(nx) && freshPv(nx)) { const pre = new Image(); pre.referrerPolicy = 'no-referrer'; pre.src = nx.big && Date.now() - nx.ts < PV_TTL ? nx.big : nx.pv; }
+}
+let tx = 0, ty = 0, tIgnore = false;
+vEl.addEventListener('touchstart', e => {
+  if (e.touches.length !== 1) { tIgnore = true; return; }
+  const t = e.touches[0]; tx = t.clientX; ty = t.clientY;
+  const vid = e.target.closest && e.target.closest('video');
+  tIgnore = !!(vid && t.clientY > vid.getBoundingClientRect().bottom - 80);
+}, {passive: true});
+vEl.addEventListener('touchend', e => {
+  if (tIgnore) return;
+  const t = e.changedTouches[0], dx = t.clientX - tx, dy = t.clientY - ty;
+  if (Math.abs(dx) > 60 && Math.abs(dy) < 60) step(dx < 0 ? 1 : -1);
+}, {passive: true});
+
+/* ---------- sheets, toast, clipboard ---------- */
+let toastT = 0;
+function toast(msg){ const t = $('#toast'); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => { t.hidden = true; }, 2800); }
+async function copyText(text, ta){
+  try { await navigator.clipboard.writeText(text); toast('Скопировано'); return; } catch (e) {}
+  try {
+    const el = ta || Object.assign(document.createElement('textarea'), {value: text});
+    if (!ta) { el.style.position = 'fixed'; el.style.opacity = '0'; document.body.appendChild(el); }
+    el.focus(); el.select();
+    const ok = document.execCommand('copy');
+    if (!ta) el.remove();
+    toast(ok ? 'Скопировано' : 'Текст выделен, скопируйте его');
+  } catch (e) { toast('Не получилось скопировать'); }
+}
+const tgLink = (text, url) => 'https://t.me/share/url?url=' + encodeURIComponent(url || ' ') + '&text=' + encodeURIComponent(text || '');
+function openSheet(titleText, body, onMount){
+  const s = document.createElement('div');
+  s.className = 'sheet'; s.setAttribute('role', 'dialog'); s.setAttribute('aria-modal', 'true'); s.setAttribute('aria-label', titleText);
+  s.innerHTML = '<div class="sheet-in"><div class="sheet-top"><h2>' + esc(titleText) + '</h2><button class="btn ghost" data-close="1">Закрыть</button></div>' + body + '</div>';
+  $('#sheet').appendChild(s);
+  const close = () => { s.remove(); document.removeEventListener('keydown', onKey); };
+  const onKey = e => { if (e.key === 'Escape') close(); };
+  document.addEventListener('keydown', onKey);
+  s.addEventListener('click', e => { if (e.target === s || (e.target.closest && e.target.closest('[data-close]'))) close(); });
+  if (onMount) onMount(s, close);
+  return s;
+}
+function nextFriday(d){ const x = new Date(d); x.setDate(x.getDate() + (((5 - x.getDay() + 7) % 7) || 7)); return x; }
+const fmtD = d => d.toLocaleDateString('ru-RU', {day: '2-digit', month: '2-digit', year: 'numeric'});
+function reportText(rows, o){
+  const sum = rows.reduce((s, r) => s + r.price, 0), today = new Date();
+  let t = 'Счёт на оплату от ' + fmtD(today) + '\nИсполнитель: студия ' + CFG.studio + '\nЗаказчик: ' + CFG.client + '\n\nВыполненные и переданные работы:\n';
+  rows.forEach((r, i) => { t += (i + 1) + '. №' + r.n + ' ' + r.type + ': ' + r.name + ' - ' + rub(r.price) + '\n'; });
+  t += '\nИтого: ' + rub(sum) + '\n';
+  if (o.parts > 1 && rows.length > 1) {
+    const groups = Array.from({length: o.parts}, () => []), target = sum / o.parts;
+    let g = 0, acc = 0;
+    rows.forEach(r => { if (acc >= target && g < o.parts - 1) { g++; acc = 0; } groups[g].push(r); acc += r.price; });
+    let d = nextFriday(today);
+    t += '\nГрафик оплаты:\n';
+    groups.filter(x => x.length).forEach((x, i) => { t += 'Платёж ' + (i + 1) + ' до ' + fmtD(d) + ': ' + rub(x.reduce((s, r) => s + r.price, 0)) + ' (№' + x.map(r => r.n).join(', №') + ')\n'; d.setDate(d.getDate() + 7); });
+  }
+  if (o.explain) {
+    const byType = {}; rows.forEach(r => { byType[r.type] = (byType[r.type] || 0) + 1; });
+    t += '\nВсе работы из списка уже сданы и используются: ' + Object.entries(byType).map(([k, v]) => k.toLowerCase() + ' (' + v + ')').join(', ') + '. Оплата закрывает самые ранние работы по порядку.\n';
+  }
+  if (o.link) t += '\nПосмотреть все работы из списка: ' + shareLink({p: rows.map(r => r.n).join('.')}) + '\n';
+  return t;
+}
+function openReport(rows){
+  rows = rows || selRows();
+  if (!rows.length) return;
+  const o = {parts: 1, explain: true, link: true};
+  openSheet('Список для начальства',
+    '<div class="panel"><label class="field" for="r-parts"><span>Разбить на платежи</span><select id="r-parts">' + [1, 2, 3, 4].map(n => '<option value="' + n + '">' + (n === 1 ? 'Одним платежом' : n + ' платежа по пятницам') + '</option>').join('') + '</select></label>' +
+    '<label class="opt" for="r-explain"><input type="checkbox" id="r-explain" checked><span>Добавить пояснение, что работы сданы</span></label>' +
+    '<label class="opt" for="r-link"><input type="checkbox" id="r-link" checked><span>Добавить ссылку на просмотр работ<small>Откроется страница только с этими работами, без ваших процентов</small></span></label></div>' +
+    '<label class="field" for="r-text"><span>Текст можно поправить перед отправкой</span><textarea class="mono" id="r-text"></textarea></label>' +
+    '<div class="actions"><button class="btn" data-act="r-copy">Скопировать</button>' + (navigator.share ? '<button class="btn line" data-act="r-share">' + ICON.share + '<span>Поделиться</span></button>' : '') + '<a class="btn line" id="r-tg" target="_blank" rel="noopener noreferrer">Отправить в Telegram</a><button class="btn line" data-act="r-dl">Скачать .txt</button></div>' +
+    '<div class="tips"><b>Как проще согласовать</b><span>Небольшие регулярные платежи согласуют легче, чем одну большую сумму. Попробуйте разбить пакет на 2-3 платежа.</span><span>Начинайте со старых работ: их уже видели и используют, вопросов по ним меньше.</span></div>',
+    s => {
+      const ta = $('#r-text', s);
+      const upd = () => { ta.value = reportText(rows, o); $('#r-tg', s).href = tgLink(ta.value); };
+      upd();
+      ta.addEventListener('input', () => { $('#r-tg', s).href = tgLink(ta.value); });
+      $('#r-parts', s).onchange = e => { o.parts = +e.target.value; upd(); };
+      $('#r-explain', s).onchange = e => { o.explain = e.target.checked; upd(); };
+      $('#r-link', s).onchange = e => { o.link = e.target.checked; upd(); };
+      s.addEventListener('click', e => {
+        const b = e.target.closest('[data-act]'); if (!b) return;
+        if (b.dataset.act === 'r-copy') copyText(ta.value, ta);
+        if (b.dataset.act === 'r-share') navigator.share({text: ta.value}).catch(() => {});
+        if (b.dataset.act === 'r-dl') { try { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([ta.value], {type: 'text/plain;charset=utf-8'})); a.download = 'Счёт ' + CFG.client + ' ' + fmtD(new Date()) + '.txt'; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000); } catch (err) { toast('Не получилось скачать, скопируйте текст'); } }
+      });
+    });
+}
+function openOrder(i){
+  const sv = SERVICES[i];
+  openSheet('Заказ: ' + sv.t,
+    '<label class="field" for="o-prod"><span>Товар</span><input id="o-prod" placeholder="Например: Спецмазь 100 мл"></label>' +
+    '<label class="field" for="o-task"><span>Что нужно</span><textarea id="o-task" rows="4" placeholder="Идея, длительность, где будет размещаться"></textarea></label>' +
+    '<div class="field-row"><label class="field" for="o-qty"><span>Сколько</span><input id="o-qty" inputmode="numeric" placeholder="1"></label><label class="field" for="o-when"><span>Сроки</span><select id="o-when"><option>Не срочно</option><option>За неделю</option><option>За 2-3 дня</option></select></label></div>' +
+    '<label class="field" for="o-msg"><span>Сообщение для студии</span><textarea class="mono" id="o-msg" rows="7" readonly></textarea></label>' +
+    '<div class="actions"><button class="btn" data-act="o-copy">Скопировать</button><a class="btn line" id="o-tg" target="_blank" rel="noopener noreferrer">Отправить в Telegram</a></div>' +
+    (repLayer() ? '<p class="muted small">С этого заказа ваши ' + Math.round(RATE * 100) + '% после оплаты.</p>' : ''),
+    s => {
+      const val = id => ($('#' + id, s).value || '').trim();
+      const upd = () => { const msg = 'Заказ для «' + CFG.client + '»: ' + sv.t + '\nТовар: ' + (val('o-prod') || '-') + '\nЗадача: ' + (val('o-task') || '-') + '\nКоличество: ' + (val('o-qty') || '1') + '\nСроки: ' + val('o-when'); $('#o-msg', s).value = msg; $('#o-tg', s).href = tgLink(msg); };
+      s.addEventListener('input', upd); s.addEventListener('change', upd); upd();
+      s.addEventListener('click', e => { const b = e.target.closest('[data-act="o-copy"]'); if (b) copyText($('#o-msg', s).value, $('#o-msg', s)); });
+    });
+}
+function openOptions(){
+  const roleName = {admin: 'управление', rep: 'представитель', client: 'обычный просмотр'}[S.role];
+  openSheet('Настройки',
+    '<div class="panel"><div class="field"><span>Тема</span>' + seg('theme', S.theme, [['auto', 'Как в системе'], ['light', 'Светлая'], ['dark', 'Тёмная']]) + '</div>' +
+    (repTools() ? '<label class="opt" for="o-hide"><input type="checkbox" id="o-hide"' + (S.hide ? ' checked' : '') + '><span>Скрыть ваш доход<small>Убирает проценты, кошелёк, уровни и награды. Удобно, если нужно показать экран начальству. Настройка запоминается на этом устройстве.</small></span></label>' : '') +
+    (isAdmin() ? '<div class="field"><span>Смотреть кабинет как</span>' + seg('viewas', S.viewAs, [['rep', 'Представитель'], ['client', 'Начальник']]) + '</div>' : '') + '</div>' +
+    '<div class="panel"><div class="actions"><button class="btn ghost" data-act="recrawl">Обновить данные с Диска</button></div><p class="muted small">Режим на этом устройстве: ' + roleName + '.</p>' +
+    (S.role !== 'client' ? '<div class="actions"><button class="btn line" data-act="reset-role">Выйти из режима на этом устройстве</button></div>' : '') + '</div>',
+    (s, close) => {
+      const hide = $('#o-hide', s);
+      if (hide) hide.onchange = e => { S.hide = e.target.checked; saveUI(); render(true); toast(S.hide ? 'Доход скрыт' : 'Доход снова виден'); };
+      s.addEventListener('click', e => {
+        const b = e.target.closest('[data-act]'); if (!b) return;
+        if (b.dataset.act === 'theme') { S.theme = b.dataset.v; saveUI(); applyTheme(); s.querySelectorAll('[data-act="theme"]').forEach(x => x.setAttribute('aria-pressed', x.dataset.v === S.theme)); }
+        if (b.dataset.act === 'viewas') { S.viewAs = b.dataset.v; saveUI(); render(true); s.querySelectorAll('[data-act="viewas"]').forEach(x => x.setAttribute('aria-pressed', x.dataset.v === S.viewAs)); }
+        if (b.dataset.act === 'reset-role') { store.set(K.role, 'client'); store.del(K.ak); S.role = 'client'; ADM = null; close(); render(); toast('Режим сброшен'); }
+        if (b.dataset.act === 'recrawl') { close(); crawl(); }
+      });
+    });
+}
+
+/* ---------- events ---------- */
+async function download(p){
+  try {
+    toast('Готовлю файл…');
+    const j = await getJSON(API + '/download?public_key=' + encodeURIComponent(PK) + '&path=' + encodeURIComponent(p));
+    const a = document.createElement('a'); a.href = j.href; a.rel = 'noreferrer'; document.body.appendChild(a); a.click(); a.remove();
+  } catch (e) { toast('Не получилось скачать, попробуйте ещё раз'); }
+}
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-act]');
+  if (!b || b.closest('.sheet')) return;
+  const act = b.dataset.act;
+  if (act === 'view') { const seq = SEQ[b.dataset.seq]; if (seq) openViewer(seq, +b.dataset.i); }
+  else if (act === 'row-view') {
+    const r = PAY.byKey.get(b.dataset.k); if (!r) return;
+    b.classList.add('loading'); const items = await rowMedia(r); b.classList.remove('loading');
+    if (items.length) openViewer(items, 0); else toast('Файлы этой работы не найдены на Диске');
+  }
+  else if (act === 'sel') { toggleSel(b.dataset.k); render(true); }
+  else if (act === 'budget') { pickBudget(+b.dataset.v); render(true); }
+  else if (act === 'clear') { S.sel = []; S.budget = null; saveUI(); render(true); }
+  else if (act === 'report') openReport();
+  else if (act === 'pace') { S.pace = +b.dataset.v; saveUI(); render(true); }
+  else if (act === 'kind') { S.kind = b.dataset.v; render(true); }
+  else if (act === 'sort') { S.sort = b.dataset.v; saveUI(); render(true); }
+  else if (act === 'opts') openOptions();
+  else if (act === 'recrawl') crawl();
+  else if (act === 'zip') download(b.dataset.p);
+  else if (act === 'order') openOrder(+b.dataset.i);
+  else if (act === 'adays') { adminDays = +b.dataset.v; render(true); }
+  else if (act === 'copy-ta') { const ta = $('#' + b.dataset.t); if (ta) copyText(ta.value, ta); }
+  else if (act === 'copy-link') { if (ADM) { const L = [shareLink({k: ADM.repKey}), shareLink(), shareLink({a: ADM.admKey})][+b.dataset.i]; copyText(L); } }
+  else if (act === 'show-copy') { const rows = b.dataset.ns.split('.').map(n => PAY.rows.find(r => String(r.n) === n)).filter(r => r && r.price != null && r.status !== 'paid'); copyText(reportText(rows, {parts: 1, explain: true, link: false})); }
+  else if (act === 'v-close') closeViewer();
+  else if (act === 'v-prev') step(-1);
+  else if (act === 'v-next') step(1);
+  else if (act === 'v-retry') drawViewer();
+  else if (act === 'v-dl') download(V.seq[V.i].p);
+  else if (act === 'v-link') copyText(shareLink({r: '/v=' + encodeURIComponent(V.seq[V.i].p)}));
+  else if (act === 'v-posted') {
+    V.dirty = true;
+    const p = V.seq[V.i].p;
+    if (S.posted.has(p)) S.posted.delete(p); else S.posted.add(p);
+    store.set(K.posted, [...S.posted]);
+    const on = S.posted.has(p); b.classList.toggle('on', on); b.querySelector('span').textContent = on ? 'Передано' : 'Отметить: передано';
+  }
+  else if (act === 'v-sel') {
+    toggleSel(b.dataset.k); V.dirty = true;
+    const r = PAY.byKey.get(b.dataset.k); const sel = S.sel.includes(b.dataset.k);
+    b.innerHTML = sel ? 'В пакете ' + ICON.check : 'Добавить в пакет';
+    if (r && sel) toast('«' + r.name + '» в пакете');
+  }
+  else if (act === 'v-folder') { e.preventDefault(); const p = parentOf(V.seq[V.i].p); V.pushed = false; closeViewer(true); history.replaceState(null, '', fHref(p)); onNav(); }
+});
+document.addEventListener('input', e => {
+  if (e.target.id !== 'q') return;
+  S.q = e.target.value;
+  const w = $('#works'); if (w) { w.innerHTML = S.q.trim() ? searchHTML() : sectionsHTML(); fillLive(w); }
+});
+document.addEventListener('keydown', e => {
+  if (!V.open) return;
+  if (e.key === 'Escape') closeViewer();
+  else if (e.key === 'ArrowRight') step(1);
+  else if (e.key === 'ArrowLeft') step(-1);
+});
+function onNav(){
+  const r = parseRoute(location.hash);
+  if (r.v === 'viewer') { if (!V.open) openDeep(r.p); return; }
+  if (V.open) closeViewer(true);
+  const same = routeKey(S.route) === routeKey(r);
+  S.route = r;
+  if (same) { if (V.dirty) { V.dirty = false; render(true); } else $('#top').innerHTML = headerHTML(); return; }
+  V.dirty = false;
+  render();
+  window.scrollTo(0, 0);
+}
+async function openDeep(p){
+  const parent = parentOf(p);
+  if (!D.dirs.get(parent) || !D.idx.get(p)) { try { await apiList(parent, true); } catch (e) {} }
+  const d = D.dirs.get(parent);
+  const files = d ? d.items.filter(i => !hidden(i) && isMedia(i)).sort(byName) : [];
+  const i = files.findIndex(f => f.p === p);
+  if (i < 0) { history.replaceState(null, '', fHref(parent)); S.route = {v: 'folder', p: parent}; render(); toast('Файл не найден, возможно его переименовали'); return; }
+  history.replaceState(null, '', fHref(parent));
+  S.route = {v: 'folder', p: parent};
+  render();
+  openViewer(files, i);
+}
+window.addEventListener('popstate', onNav);
+window.addEventListener('hashchange', onNav);
+
+/* ---------- start ---------- */
+const cachedAt = loadTree();
+buildPay();
+S.route = parseRoute(location.hash);
+if (S.route.v === 'viewer') { const p = S.route.p; S.route = {v: 'folder', p: parentOf(p)}; render(); openDeep(p); }
+else render();
+lastNewSig = newInfo().sig;
+if (!cachedAt || Date.now() - cachedAt > CRAWL_TTL) crawl(); else { D.crawl.ts = cachedAt; updateSync(); }
+})();
+</script>
+</body>
+</html>

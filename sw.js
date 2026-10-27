@@ -1,12 +1,12 @@
 // network first, cached app shell for offline, payment reminders on chosen weekdays
-const C = 'sm-v5';
+const C = 'sm-v6';
 self.addEventListener('install', e => { self.skipWaiting(); e.waitUntil(caches.open(C).then(c => c.addAll(['/', '/manifest.webmanifest', '/icon-192.png'])).catch(() => {})); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== C && k !== 'sm-data').map(k => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener('fetch', e => {
   const r = e.request, u = new URL(r.url);
   if (r.method !== 'GET' || u.origin !== location.origin) return;
-  if (r.mode === 'navigate') { e.respondWith(fetch(r).catch(() => caches.match('/'))); return; }
-  if (u.pathname === '/config.json' || u.pathname === '/__remind') return;
+  if (r.mode === 'navigate') { e.respondWith(fetch(r.url, {cache: 'no-cache', credentials: 'same-origin'}).catch(() => caches.match('/'))); return; }
+  if (u.pathname === '/config.json' || u.pathname === '/version.json' || u.pathname === '/__remind') return;
   e.respondWith(fetch(r).then(res => { if (res.ok) { const cp = res.clone(); caches.open(C).then(c => c.put(r, cp)); } return res; }).catch(() => caches.match(r)));
 });
 async function remind(){
